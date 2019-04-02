@@ -1,0 +1,8 @@
+const SET_CURRENT_USER = "SETCURRENTUSER";
+const ERRORS = "ERRORS";
+
+
+export {
+    SET_CURRENT_USER,
+    ERRORS
+}
