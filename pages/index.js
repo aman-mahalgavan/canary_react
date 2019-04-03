@@ -1,9 +1,10 @@
 
 import { Link } from "../routes";
 
+
 import React, { Component } from 'react'
 
-export default class index extends Component {
+class index extends Component {
 
     static getInitialProps(ctx) {
         console.log(ctx.req ? "On Server" : "On Client");
@@ -22,3 +23,12 @@ export default class index extends Component {
         )
     }
 }
+
+
+const mapStateToProps = (state)=>{
+    return {
+        auth:state.auth
+    }
+}
+
+export default index;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
-import private from "../components/hoc/PrivatePage";
+import privatePage from "../components/hoc/PrivatePage";
 class dashboard extends Component {
 
     static async getInitialProps(ctx) {
@@ -26,4 +26,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(private(dashboard));
+export default connect(mapStateToProps)(privatePage(dashboard));
