@@ -5,7 +5,7 @@ import * as ButtonStyle from "./ButtonStyle";
 
 
 
-const finalStyleObject = {
+module.exports = {
 	...GlobalStyles,
 	...HeaderStyle,
 	...AuthFormStyle,
@@ -13,4 +13,4 @@ const finalStyleObject = {
 }
 
 
-export default finalStyleObject;
+

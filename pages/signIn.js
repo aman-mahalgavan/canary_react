@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {Link} from "../routes";
+import { Link } from "../routes";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/authActions";
 import InputComponent from "../components/partials/InputComponent";
-import {SignInForm,SwitchTab} from "../styles/AuthFormStyle.js";
-import {ButtonStyle} from "../styles/ButtonStyle";
-import {FLX} from "../styles/GlobalStyle";
-import GuestPage from "../components/hoc/GuestPage"; 
+// import { SignInForm, SwitchTab } from "../styles/AuthFormStyle.js";
+// import { ButtonStyle } from "../styles/ButtonStyle";
+// import { FLX } from "../styles/GlobalStyle";
+import { SignInForm, SwitchTab, ButtonStyle, FLX } from "../styles/_index";
+import GuestPage from "../components/hoc/GuestPage";
 
 class signin extends Component {
 
@@ -38,7 +39,7 @@ class signin extends Component {
 
 
     render() {
-        let errors = this.props.errors?this.props.errors:{};
+        let errors = this.props.errors ? this.props.errors : {};
         return (
             <SignInForm onSubmit={this.onSubmit}>
                 <SwitchTab>
@@ -81,9 +82,9 @@ class signin extends Component {
 
 
 const mapStateToprops = (state) => {
-    return { 
+    return {
         auth: state.auth,
-        errors:state.errors 
+        errors: state.errors
     }
 }
 
