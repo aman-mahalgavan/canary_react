@@ -6,6 +6,7 @@ import { getCookie } from "../utils/cookie";
 import { resetUser } from "../redux/actions/authActions";
 import setAuthToken from "../utils/setAuthToken";
 import { formatToken } from "../utils/formatToken";
+import BaseLayout from "../components/layouts/BaseLayout.js"
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
         let appProps = {};
@@ -23,12 +24,12 @@ class MyApp extends App {
                 }
             }
         }
-
+        console.log(ctx.isServer ? "On Server" : "On Client");
 
         if (Component.getInitialProps) {
             appProps = await Component.getInitialProps(ctx);
         }
-        return { pageProps: { ...appProps } }
+        return { ...appProps }
     }
 
     render() {
@@ -36,10 +37,13 @@ class MyApp extends App {
         return (
             <Container>
                 <Provider store={store}>
-                    <Component {...pageProps} />
+                    <BaseLayout>
+                        <Component {...pageProps} />
+                    </BaseLayout>
                 </Provider>
             </Container>
         )
+
     }
 }
 

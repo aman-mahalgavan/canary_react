@@ -1,42 +1,90 @@
 import React, { Component } from 'react';
+import {Link} from "../routes";
 import { connect } from "react-redux";
-import { loginUser, logoutUser } from "../redux/actions/authActions";
-import Layout from "../components/layouts/testNav";
+import { loginUser } from "../redux/actions/authActions";
+import InputComponent from "../components/partials/InputComponent";
+import {SignInForm,SwitchTab} from "../styles/AuthFormStyle.js";
+import {ButtonStyle} from "../styles/ButtonStyle";
+import {FLX} from "../styles/GlobalStyle";
+import GuestPage from "../components/hoc/GuestPage"; 
 
-class signIn extends Component {
-    static async getInitialProps(ctx) {
-        return {};
+class signin extends Component {
+
+
+    state = {
+        email: "",
+        password: ""
     }
 
-    handleClick = async () => {
-        let data = {
-            email: "ankitbrahmbhatt1997@gmail.com",
-            password: "Enterthevoid@123"
-        }
+    onChange = e => {
+        let name = e.target.name;
+        let value = e.target.value;
+        this.setState(() => {
+            return {
+                [name]: value
+            };
+        });
+    };
 
-        this.props.loginUser(data);
-    }
+    onSubmit = e => {
+        e.preventDefault();
+        const User = {
+            email: this.state.email,
+            password: this.state.password
+        };
 
-    handlelogout = () => {
-        this.props.logoutUser();
-    }
+        this.props.loginUser(User);
+    };
+
+
     render() {
+        let errors = this.props.errors?this.props.errors:{};
         return (
-            <Layout {...this.props} >
-                <div>
-                    <h1>This is the Signin page</h1>
-                    <button onClick={this.handleClick}>SignIn</button>
-                    {this.props.auth ? "True" : "False"}
-                </div>
+            <SignInForm onSubmit={this.onSubmit}>
+                <SwitchTab>
+                    <Link route="/login">
+                        <a className="active">Sign In</a>
+                    </Link>
+                    <Link route="/signup">
+                        <a>Sign Up</a>
+                    </Link>
+                </SwitchTab>
+                <InputComponent
+                    type="text"
+                    name="email"
+                    placeholder="Your Email"
+                    OnChange={this.onChange}
+                    value={this.state.email}
+                    error={errors.email}
+                />
+                <InputComponent
+                    type="password"
+                    name="password"
+                    placeholder="Your password"
+                    OnChange={this.onChange}
+                    value={this.state.password}
+                    error={errors.password}
+                />
 
-            </Layout>
+                <FLX mg="30px 0 30px 0">
+                    <Link route="/">
+                        <a className="forgot">Forgot your password?</a>
+                    </Link>
+                </FLX>
+                <ButtonStyle bg="#1ba94c" color="#fff" type="submit" >
+                    Login
+		</ButtonStyle>
+            </SignInForm>
         )
     }
 }
 
 
 const mapStateToprops = (state) => {
-    return { auth: state.auth }
+    return { 
+        auth: state.auth,
+        errors:state.errors 
+    }
 }
 
-export default connect(mapStateToprops, { loginUser, logoutUser })(signIn);
+export default connect(mapStateToprops, { loginUser })(GuestPage(signin));

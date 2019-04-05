@@ -5,12 +5,12 @@ import Redirect from "../../utils/redirect";
 
 
 export default (Page) => {
-    return class PrivatePage extends Component {
+    return class GuestPage extends Component {
 
         static async getInitialProps(ctx) {
 
             let isAuthenticated = ctx.store.getState().auth.isAuthenticated;
-            if (!isAuthenticated) {
+            if (isAuthenticated) {
                 Redirect("/", ctx);
             }
             else {

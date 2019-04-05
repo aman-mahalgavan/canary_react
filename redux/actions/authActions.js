@@ -1,6 +1,7 @@
 import { SET_CURRENT_USER } from "./types";
 import { ERRORS } from "./types";
 import axios from "axios";
+import { Router } from "../../routes";
 
 import setAuthToken from "../../utils/setAuthToken";
 import { setCookie, removeCookie } from "../../utils/cookie";
@@ -16,12 +17,10 @@ export const loginUser = userData => async (dispatch) => {
         let user = await fetchUser();
 
         dispatch(setCurrentUser(user));
+        Router.pushRoute("/dashboard");
     } catch (err) {
-        let errors = {};
-        if (err.response.data = "Unauthorized") {
-            errors.unauthorized = "Invalid Token";
-        }
-        else { errors = err.response.data.errors }
+        let { errors } = err.response.data;
+
         dispatch({
             type: ERRORS,
             errors
@@ -57,7 +56,7 @@ export const logoutUser = () => dispatch => {
     setAuthToken();
     removeCookie("authorization");
     dispatch(setCurrentUser({}));
-
+    Router.pushRoute("/login");
 }
 
 //fetching the user using the token
