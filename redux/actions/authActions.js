@@ -7,10 +7,12 @@ import setAuthToken from "../../utils/setAuthToken";
 import { setCookie, removeCookie } from "../../utils/cookie";
 
 
+const URI = "http://localhost:12000/api";
+
 // logging in a user(getting the authgorization token)
 export const loginUser = userData => async (dispatch) => {
     try {
-        let res = await axios.post("http://localhost:12000/api/auth/login", userData);
+        let res = await axios.post(`${URI}/auth/login`, userData);
         let { token } = res.data;
         setCookie("authorization", token);
         setAuthToken(token);
@@ -18,6 +20,23 @@ export const loginUser = userData => async (dispatch) => {
 
         dispatch(setCurrentUser(user));
         Router.pushRoute("/dashboard");
+    } catch (err) {
+        let { errors } = err.response.data;
+
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+
+//registering a user
+export const registerUser = userData => async (dispatch) => {
+    try {
+        let res = await axios.post(`${URI}/auth/register`, userData);
+        Router.pushRoute("/login");
+
     } catch (err) {
         let { errors } = err.response.data;
 
@@ -39,7 +58,7 @@ export const resetUser = token => async (dispatch) => {
         dispatch(setCurrentUser(user));
     } catch (err) {
         let errors = {};
-        if (err.response.data = "Unauthorized") {
+        if (err.response.data === "Unauthorized") {
             errors.unauthorized = "Invalid Token";
         }
         else { errors = err.response.data.errors }
@@ -59,10 +78,30 @@ export const logoutUser = () => dispatch => {
     Router.pushRoute("/login");
 }
 
+//confirming the account(email verification)
+
+export const confirmAccount = (token) => async dispatch => {
+    try {
+        console.log(token);
+        let res = await axios.get(`${URI}/auth/confirmation/${token}`);
+        console.log(res.data.msg);
+        setTimeout(() => {
+            Router.pushRoute("/login")
+        }, 3000);
+    } catch (err) {
+        let { errors } = err.response.data;
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+
+}
+
 //fetching the user using the token
 export const fetchUser = async () => {
 
-    let res = await axios.get("http://localhost:12000/api/auth/user");
+    let res = await axios.get(`${URI}/auth/user`);
 
     return res.data;
 

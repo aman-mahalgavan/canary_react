@@ -1,16 +1,22 @@
 import * as GlobalStyles from "./GlobalStyle";
-import * as HeaderStyle from "./HeaderStyle";
-import * as AuthFormStyle from "./AuthFormStyle";
-import * as ButtonStyle from "./ButtonStyle";
+import * as HeaderStyles from "./HeaderStyle";
+import * as AuthFormStyles from "./AuthFormStyle";
+import * as ButtonStyles from "./ButtonStyle";
+import * as UtilStyles from "./UtilStyle";
+import * as DashboardStyles from "./DashboardStyle";
+import * as CampaignStyles from "./CampaignStyle";
 
 
 
-module.exports = {
+const finalStyleObject = {
 	...GlobalStyles,
-	...HeaderStyle,
-	...AuthFormStyle,
-	...ButtonStyle
+	...HeaderStyles,
+	...AuthFormStyles,
+	...ButtonStyles,
+	...UtilStyles,
+	...DashboardStyles,
+	...CampaignStyles
 }
 
-
+export default finalStyleObject;
 

@@ -7,28 +7,35 @@ import { resetUser } from "../redux/actions/authActions";
 import setAuthToken from "../utils/setAuthToken";
 import { formatToken } from "../utils/formatToken";
 import BaseLayout from "../components/layouts/BaseLayout.js"
+import axios from "axios";
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
         let appProps = {};
 
+        let token;
         if (ctx.isServer) {
             if (ctx.req.headers.cookie) {
-                let token = getCookie("authorization", ctx.req);
-
-                if (token) {
-                    token = formatToken(token);
-
-                    setAuthToken(token);
-                    await ctx.store.dispatch(resetUser());
-
-                }
+                token = getCookie("authorization", ctx.req);
             }
-        }
-        console.log(ctx.isServer ? "On Server" : "On Client");
 
-        if (Component.getInitialProps) {
-            appProps = await Component.getInitialProps(ctx);
         }
+        else {
+            token = getCookie("authorization");
+        }
+        if (token) {
+            let formattedToken = formatToken(token);
+
+            setAuthToken(formattedToken);
+
+            await ctx.store.dispatch(resetUser());
+        }
+
+        let pageProps = {}
+        if (Component.getInitialProps) {
+            pageProps = await Component.getInitialProps(ctx);
+        }
+        appProps = { pageProps }
+
         return { ...appProps }
     }
 

@@ -1,20 +1,20 @@
 import React from "react";
-import { InputStyle, StyledLabel } from "../../styles/AuthFormStyle";
+import Styles from "../../styles/_index";
 
-function InputComponent({
+function TextAreaInputComponent({
+
     name,
     placeholder,
     value,
     error,
     onChange,
-    type,
     disabled
 }) {
     return (
         <div className="form-group">
-            <StyledLabel htmlFor={name} color="red">{error ? error : ""}</StyledLabel>
-            <InputStyle
-                type={type}
+            <Styles.StyledLabel htmlFor={name} color="red">{error ? error : ""}</Styles.StyledLabel>
+            <Styles.TextAreaInputStyle
+
 
                 placeholder={placeholder}
                 name={name}
@@ -27,5 +27,4 @@ function InputComponent({
     );
 }
 
-
-export default InputComponent;
+export default TextAreaInputComponent;

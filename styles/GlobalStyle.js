@@ -23,7 +23,8 @@ export const GlobalStyle = createGlobalStyle`
 
 export const FLX = styled.div`
 	display: flex;
-	justify-content: flex-end;
+	width:100%;
+	justify-content:${props => (props.jc ? props.jc : "normal")} ;
 	align-items: center;
 	margin:${props => (props.mg ? props.mg : "0px 0px 0px 0px")}
 `;

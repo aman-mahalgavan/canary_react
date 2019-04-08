@@ -4,11 +4,11 @@ import colors from "./colors";
 const authForm = css`
 	position: relative;
 	width:400px;
-	
 	margin: 105px auto;
 	background: #fff;
 	padding: 75px 15px 15px;
 	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+	
 `;
 
 export const SignInForm = styled.form`
@@ -50,6 +50,7 @@ export const SwitchTab = styled.div`
 	background: #f5f5f5;
 	align-items: center;
 	box-shadow: inset 0 1px 4px rgba(115, 143, 147, 0.2);
+	cursor:pointer;
 	a {
 		flex: 1;
 		padding: 15px;

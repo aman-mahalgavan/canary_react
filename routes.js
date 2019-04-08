@@ -2,6 +2,11 @@ const routes = require("next-routes");
 
 
 module.exports = routes()
-    .add("/login", "signin")
-    .add("/campaign", 'campaign')
-    .add("/dashboard", 'dashboard');
+    .add("/login", "auth/signin")
+    .add("/register", "auth/signup")
+    .add("/auth/confirmation/:token", "auth/confirmation")
+    .add("/campaign", 'campaign').
+    add("/campaign/create", "campaign/createCampaign")
+    .add("/dashboard", 'dashboard/index')
+    .add("/dashboard/create", "dashboard/createProfile")
+    ;

@@ -21,7 +21,7 @@ const Header = (props) => (
 					<Link route="/login">
 						<a>Login</a>
 					</Link>
-					<Link route="/signup">
+					<Link route="/register">
 						<a className="box">Sign Up</a>
 					</Link>
 				</div>

@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from "../actions/types";
+import { SET_CURRENT_USER, UPDATE_HAS_PROFILE } from "../actions/types";
 import isEmpty from "../../utils/isEmpty";
 
 const initialState = {
@@ -16,6 +16,11 @@ export default (state = initialState, action) => {
                 isAuthenticated: !isEmpty(action.user),
                 user: action.user
 
+            }
+        case UPDATE_HAS_PROFILE:
+            return {
+                ...state,
+                user: { ...state.user, hasProfile: true }
             }
         default:
             return state
