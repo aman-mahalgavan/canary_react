@@ -1,6 +1,6 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
 const Web3 = require("web3");
-const campaignCreator = require("./Build/CampaignFactory.json");
+const campaignCreator = require("./Build/campaignCreator.json");
 
 let provider = new HDWalletProvider(
     "9F5A20236D2B2138F32C8B5BF7823531351908421FDD3BDB1ECC8A22771F6B82", // use your testnet account private key
