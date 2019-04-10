@@ -72,4 +72,117 @@ export const SocialContainer = styled.div`
 
 `
 
+export const DashboardContainerStyle = styled.div`
+	margin: 75px 20px;
+	display: flex;
+	flex-wrap: no-wrap;
+	justify-content: space-evenly;
+	flex:1;
+`;
+
+export const DashboardLeftContent = styled.div`
+    
+	.profile-box,
+	.extra-info {
+		padding: 15px 10px;
+		border-radius: 20px;
+        border: 1px solid ${colors.Light_Grey_2};
+		background: #fff;
+		font-size: 14px;
+		span {
+			display: inline-block;
+			color: #a9a9a9;
+		}
+	}
+
+	.profile-box {
+        
+		text-align: center;
+		white-space:nowrap;
+		img {
+			width: 100px;
+			height: 100px;
+			border: 1px solid #f5f5f5;
+			padding: 5px;
+			margin-bottom: 5px;
+		}
+		span {
+			margin-bottom: 25px;
+			
+		}
+	}
+
+	.extra-info {
+		margin-top: 15px;
+		white-space:no-wrap;
+        text-align:center;
+        h2{
+            margin:0 0 20px 0;
+        }
+		span {
+			overflow-wrap: break-word;
+			margin-top: 10px;
+			width:230px;	
+			
+			
+		}
+	}
+`;
+
+
+export const DashboardMainContent = styled.div`
+;`
+
+export const RequestMainContent = styled.div`
+	.request-box {
+		width: 500px;
+		background: #fff;
+		padding: 15px;
+		margin: 15px 0;
+		&:first-child {
+			margin-top: 0;
+		}
+		hr {
+			display: block;
+			background: #a9a9a9;
+			margin: 15px 0;
+		}
+		p {
+			margin-top: 10px;
+			color: #a9a9a9;
+
+			b {
+				color: green;
+			}
+		}
+	}
+`;
+
+
+export const DashboardSwitchTab = styled.div`
+	
+	width: 100%;
+	display: flex;
+	
+	background: #fff;
+	align-items: center;
+	
+	cursor:pointer;
+	a {
+		flex: 1;
+		padding: 15px;
+		text-align: center;
+		color:${colors.Light_Grey_1};
+		font-size: 1.4em;
+		&.active {
+			background: ${colors.Theme_green_2};
+			color:#fff;
+		}
+	}
+`;
+
+export const DashboardRightStyle = styled.div`
+width:${props => (props.space ? props.space : "0px")};
+
+`;
 

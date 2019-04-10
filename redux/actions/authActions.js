@@ -2,9 +2,9 @@ import { SET_CURRENT_USER } from "./types";
 import { ERRORS } from "./types";
 import axios from "axios";
 import { Router } from "../../routes";
-
+import { formatToken } from "../../utils/formatToken";
 import setAuthToken from "../../utils/setAuthToken";
-import { setCookie, removeCookie } from "../../utils/cookie";
+import { setCookie, removeCookie, getCookieFromBrowser } from "../../utils/cookie";
 
 
 const URI = "http://localhost:12000/api";
@@ -84,7 +84,7 @@ export const confirmAccount = (token) => async dispatch => {
     try {
         console.log(token);
         let res = await axios.get(`${URI}/auth/confirmation/${token}`);
-        console.log(res.data.msg);
+
         setTimeout(() => {
             Router.pushRoute("/login")
         }, 3000);
@@ -96,6 +96,30 @@ export const confirmAccount = (token) => async dispatch => {
         });
     }
 
+}
+
+
+//Connecting the Ethereum address to the User
+export const updateAddress = (address) => async dispatch => {
+    try {
+
+        let token = getCookieFromBrowser("authorization");
+        let formattedToken = formatToken(token);
+        let headers = { "authorization": token }
+        let res = await axios.post(`${URI}/auth/updateAddress`, { address }, { headers: headers });
+
+        Router.pushRoute("/dashboard");
+    } catch (err) {
+        let errors = {};
+        if (err.response.data === "Unauthorized") {
+            errors.unauthorized = "Invalid Token";
+        }
+        else { errors = err.response.data.errors }
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
 }
 
 //fetching the user using the token

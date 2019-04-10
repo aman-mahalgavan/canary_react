@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { createCampaign } from "../../redux/actions/campaignAction";
 import Styles from "../../styles/_index";
 import PrivatePage from "../../components/hoc/PrivatePage";
+import WithProfile from "../../components/hoc/WithProfile";
 import InputComponent from "../../components/partials/InputComponent";
 import TextAreaInputComponent from "../../components/partials/TextAreaInputComponent";
+import web3 from "../../Ethereum/web3";
+import campaignCreator from "../../Ethereum/campaignCreator";
+import getAccount from "../../utils/getAccount";
 
-class createCampaign extends Component {
+class create extends Component {
 
     state = {
 
@@ -25,6 +31,9 @@ class createCampaign extends Component {
 
 
 
+
+
+
     // Lifecycle function for changing errors in localstate everytime they changes in redux store
 
     componentWillReceiveProps(nextProps) {
@@ -34,6 +43,39 @@ class createCampaign extends Component {
     }
 
 
+
+    // handling the submit of campaign form
+    onSubmit = async e => {
+        e.preventDefault();
+        let { hasProfile, address } = this.props.auth.user;
+        try {
+            let account = await getAccount();
+
+            if (address && hasProfile && address == account) {
+                let { minimumContribution, deadline, goal } = this.state;
+
+                // creating the campaign and getting the transaction details
+                let transactionDetails = await campaignCreator.methods.createCampaign(deadline, goal, minimumContribution).send({ from: account });
+
+                // fetching the campaign address from the transaction details
+                let campaignAddress = transactionDetails.events.DeployedCampaignAddress.returnValues._campaign;
+
+
+                // saving the campaign details to the centralized database
+                let campaignData = {
+                    heading: this.state.heading,
+                    intro: this.state.intro,
+                    campaignAddress,
+                    about: this.state.about,
+                    campaignImage: this.state.headerImage
+                }
+                this.props.createCampaign(campaignData);
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
 
     //handler function onChanging the input value everytime
@@ -50,17 +92,17 @@ class createCampaign extends Component {
 
     //handling profile image
     handleFileUpload = (event) => {
-
-
-        let avatar = event.target.files[0]
-        let imagePreview = URL.createObjectURL(avatar);
+        let headerImage = event.target.files[0]
+        let imagePreview = URL.createObjectURL(headerImage);
         this.setState(() => {
             return {
-                avatar,
+                headerImage,
                 imagePreview
             }
         })
     }
+
+
 
     render() {
         let { errors } = this.state;
@@ -136,11 +178,16 @@ class createCampaign extends Component {
     }
 }
 
+// Combining all the Hocs required for this Page
+const FinalHoc = compose(PrivatePage, WithProfile);
+
 const mapStateToProps = state => {
     return {
-        errors: state.errors
+        errors: state.errors,
+        profile: state.profile,
+        auth: state.auth
     };
 };
 export default connect(
-    mapStateToProps
-)(PrivatePage(createCampaign));
+    mapStateToProps, { createCampaign }
+)(FinalHoc(create));

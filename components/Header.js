@@ -9,6 +9,16 @@ const Header = (props) => (
 			<a className="logo">Canary</a>
 		</Link>
 
+		<div className="navigation">
+			<Link route="/">
+				<a >Explore</a>
+			</Link>
+			<Link route="/campaign/create">
+				<a>Start a Campaign</a>
+			</Link>
+		</div>
+
+
 		{props.auth.isAuthenticated ? (
 			<div className="navigation">
 				<a onClick={props.logoutUser}>Logout</a>

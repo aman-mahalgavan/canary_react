@@ -4,9 +4,12 @@ pragma solidity ^ 0.4.25;
 contract campaignCreator{
     address[] public campaigns;
     
-    function createCampaign(uint _deadline,uint _goal,uint _minimum) public {
+    event DeployedCampaignAddress(address _campaign);
+    
+    function createCampaign(uint _deadline,uint _goal,uint _minimum) public  {
         address newCampaign = new FundRaising(_deadline,_goal,msg.sender,_minimum);
         campaigns.push(newCampaign);
+        emit DeployedCampaignAddress(newCampaign);
     }
     
     function getDeployedCampaigns() public view returns(address[]){
