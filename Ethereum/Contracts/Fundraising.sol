@@ -104,7 +104,7 @@ contract FundRaising {
     }
     
     function getSummary() public view returns (
-      uint, uint, uint, uint, address,uint,uint
+      uint, uint, uint, uint, address,uint,uint,address
       ) {
         return (
           minimumContribution,
@@ -113,7 +113,8 @@ contract FundRaising {
           totalContributors,
           admin,
           deadline,
-          goal
+          goal,
+          address(this)
         );
     }
    

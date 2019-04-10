@@ -10,7 +10,7 @@ const Header = (props) => (
 		</Link>
 
 		<div className="navigation">
-			<Link route="/">
+			<Link route="/explore">
 				<a >Explore</a>
 			</Link>
 			<Link route="/campaign/create">

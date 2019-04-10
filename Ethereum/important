@@ -1,3 +1,12 @@
-deployed_campaign_version_1: 0xC7C5fdc1d1A66953e970b84D94b5bAe1851349e3
 
-deployed_campaign_version_2: 0xe18642e663f8665beB36ff1D148b36b0eB17AB6D
+// Without getDeployedAdress event
+deployed_campaign_version_1: 0xC7C5fdc1d1A66953e970b84D94b5bAe1851349e3 
+
+
+
+// With event
+deployed_campaign_version_2: 0xe18642e663f8665beB36ff1D148b36b0eB17AB6D 
+
+
+// getSummary updated
+deployed_campaign_version_3:0x2C46B96D99e9970e2af2a4b0c91f53b0447acF4b

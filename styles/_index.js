@@ -5,6 +5,7 @@ import * as ButtonStyles from "./ButtonStyle";
 import * as UtilStyles from "./UtilStyle";
 import * as DashboardStyles from "./DashboardStyle";
 import * as CampaignStyles from "./CampaignStyle";
+import * as ExporeStyles from "./ExploreStyle";
 
 
 
@@ -15,7 +16,8 @@ const finalStyleObject = {
 	...ButtonStyles,
 	...UtilStyles,
 	...DashboardStyles,
-	...CampaignStyles
+	...CampaignStyles,
+	...ExporeStyles
 }
 
 export default finalStyleObject;

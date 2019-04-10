@@ -9,5 +9,6 @@ module.exports = routes()
     add("/campaign/create", "campaign/create")
     .add("/dashboard", 'dashboard/index')
     .add("/dashboard/create", "dashboard/createProfile")
+    .add("/explore", "explore")
 
     ;

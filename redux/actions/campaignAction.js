@@ -1,11 +1,13 @@
 
 import axios from "axios";
-import { SET_CAMPAIGN, ERRORS } from "./types";
+import { SET_CAMPAIGN, SET_CAMPAIGNS, ERRORS } from "./types";
 import { Router } from "../../routes";
 import setDefaultHeader from "../../utils/setDefaultHeader";
 const URI = "http://localhost:12000/api";
 
 
+
+// creating a campaign
 export const createCampaign = (campaignData) => async dispatch => {
 
     let data = new FormData();
@@ -37,7 +39,33 @@ export const createCampaign = (campaignData) => async dispatch => {
     }
 }
 
+//Fetching all the campaigns from the backend
+export const getAllCampaigns = () => async dispatch => {
+    try {
+        let res = await axios.get(`${URI}/campaign`);
+        dispatch(setCampaigns(res.data));
+        return res.data;
+    } catch (err) {
+        let { errors } = err.response.data;
 
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+// Updating all the campaigns to the redux state
+export const setCampaigns = (campaigns) => {
+    return {
+        type: SET_CAMPAIGNS,
+        campaigns
+    }
+}
+
+
+
+// updating a single campaign to the redux state
 export const setCampaign = (campaign) => {
     return {
         type: SET_CAMPAIGN,

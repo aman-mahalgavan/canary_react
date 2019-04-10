@@ -1,4 +1,4 @@
-import { SET_CAMPAIGN } from "../actions/types";
+import { SET_CAMPAIGN, SET_CAMPAIGNS } from "../actions/types";
 import isEmpty from "../../utils/isEmpty";
 
 const initialState = {
@@ -15,6 +15,11 @@ export default (state = initialState, action) => {
                 ...state,
                 singleCampaign: action.campaign
 
+            }
+        case SET_CAMPAIGNS:
+            return {
+                ...state,
+                campaigns: action.campaigns
             }
         default:
             return state

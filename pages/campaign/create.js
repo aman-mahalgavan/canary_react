@@ -10,6 +10,7 @@ import TextAreaInputComponent from "../../components/partials/TextAreaInputCompo
 import web3 from "../../Ethereum/web3";
 import campaignCreator from "../../Ethereum/campaignCreator";
 import getAccount from "../../utils/getAccount";
+import validate from "../../utils/validate";
 
 class create extends Component {
 
@@ -48,14 +49,13 @@ class create extends Component {
     onSubmit = async e => {
         e.preventDefault();
         let { hasProfile, address } = this.props.auth.user;
-        try {
-            let account = await getAccount();
-
-            if (address && hasProfile && address == account) {
+        let { isEligible, errors } = await validate(hasProfile, address);
+        if (isEligible) {
+            try {
                 let { minimumContribution, deadline, goal } = this.state;
 
                 // creating the campaign and getting the transaction details
-                let transactionDetails = await campaignCreator.methods.createCampaign(deadline, goal, minimumContribution).send({ from: account });
+                let transactionDetails = await campaignCreator.methods.createCampaign(deadline, goal, minimumContribution).send({ from: address });
 
                 // fetching the campaign address from the transaction details
                 let campaignAddress = transactionDetails.events.DeployedCampaignAddress.returnValues._campaign;
@@ -70,10 +70,12 @@ class create extends Component {
                     campaignImage: this.state.headerImage
                 }
                 this.props.createCampaign(campaignData);
+            } catch (err) {
+                console.log(err);
             }
-
-        } catch (err) {
-            console.log(err);
+        }
+        else {
+            console.log(errors);
         }
     }
 
@@ -88,6 +90,9 @@ class create extends Component {
             };
         });
     };
+
+
+
 
 
     //handling profile image
