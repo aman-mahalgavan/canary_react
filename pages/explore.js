@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
+import { Link } from "../routes";
 import { getAllCampaigns } from "../redux/actions/campaignAction";
 import Campaign from "../Ethereum/campaign";
 import CampaignCard from "../components/campaign/CampaignCard";
@@ -29,12 +29,20 @@ class explore extends Component {
 
     renderCampaignCards = () => {
         return this.props.campaigns.map((campaign, index) => {
+            let campaignRoute = `/campaign/${campaign.campaignAddress}`;
             return (
-                <CampaignCard
-                    key={index}
-                    campaign={campaign}
-                    campaignSummary={this.props.campaignsSummary[index]}
-                />
+                <Link route={campaignRoute} key={index}>
+
+                    <Styles.CampaignCardStyle>
+                        <CampaignCard
+
+                            campaign={campaign}
+                            campaignSummary={this.props.campaignsSummary[index]}
+                        />
+
+                    </Styles.CampaignCardStyle>
+
+                </Link>
             );
         });
     };

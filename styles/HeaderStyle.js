@@ -15,7 +15,21 @@ export const HeaderStyle = styled.header`
 		font-weight: 600;
 		color: rgba(0, 0, 0, 0.7);
 	}
+	.dropdown-wrapper{
+		position:relative;
+	}
 	.navigation {
+		img{
+			width:40px;
+			height:40px;
+			border-radius:50%;
+			margin-left:20px;
+			cursor:pointer;
+		
+		}
+		& .logout{
+			transform:translateY(-20px);
+		}
 		a {
 			margin: 0 15px;
 			color: ${colors.Light_Grey_1};
@@ -34,3 +48,17 @@ export const HeaderStyle = styled.header`
 		}
 	}
 `;
+
+
+
+
+export const StyledDropdown = styled.div`
+z-index:200;
+position:absolute;
+transform:translateX(-50%);
+width:100px;
+padding:10px 40px 50px 3px;
+background:#fff;
+box-shadow:3px 3px 7px rgba(0,0,0,0.4);
+border-radius:5px;
+`

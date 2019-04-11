@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Router } from "../../routes";
 
 import Redirect from "../../utils/redirect";
 
@@ -11,7 +12,9 @@ export default (Page) => {
 
             let isAuthenticated = ctx.store.getState().auth.isAuthenticated;
             if (!isAuthenticated) {
-                Redirect("/", ctx);
+
+                Redirect("/login", ctx);
+
             }
             else {
 

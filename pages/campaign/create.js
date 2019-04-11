@@ -115,7 +115,7 @@ class create extends Component {
             <Styles.FormContainer onSubmit={this.onSubmit}>
                 <h1>Create a Campaign</h1>
                 <p>Help Contributors understand you Better</p>
-                <Styles.CampaignImageContainer bg={this.state.imagePreview}>
+                <Styles.CampaignFormImageContainer bg={this.state.imagePreview}>
                     <div className="image-upload">
                         <label htmlFor="file-input">
                             <a><Styles.ImageIcon className="fas fa-edit"></Styles.ImageIcon></a>
@@ -124,7 +124,7 @@ class create extends Component {
                     </div>
 
 
-                </Styles.CampaignImageContainer>
+                </Styles.CampaignFormImageContainer>
                 <InputComponent
                     placeholder="Heading"
                     type="text"

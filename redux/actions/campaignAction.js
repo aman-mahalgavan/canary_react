@@ -55,6 +55,21 @@ export const getAllCampaigns = () => async dispatch => {
     }
 }
 
+export const getCampaignByAddress = (address) => async dispatch => {
+    try {
+        let res = await axios.get(`${URI}/campaign/${address}`);
+        dispatch(setSingleCampaign(res.data));
+    } catch (err) {
+        let { errors } = err.response.data;
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+
+
 // Updating all the campaigns to the redux state
 export const setCampaigns = (campaigns) => {
     return {
@@ -63,6 +78,13 @@ export const setCampaigns = (campaigns) => {
     }
 }
 
+
+export const setSingleCampaign = (campaign) => {
+    return {
+        type: SET_CAMPAIGN,
+        campaign
+    }
+}
 
 
 // updating a single campaign to the redux state

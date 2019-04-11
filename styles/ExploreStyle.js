@@ -11,10 +11,10 @@ export const ExploreContainerStyle = styled.div`
 `
 
 
-export const CampaignCardStyle = styled.div`
+export const CampaignCardStyle = styled.a`
 flex-basis:400px;
 box-shadow:1px 1px 7px rgba(0,0,0,0.2);
-
+display:block;
 margin-bottom:30px;
 cursor:pointer;
 transition:transform 0.2s , box-shadow 0.2s;
@@ -66,7 +66,7 @@ h3{
 
 export const ProgressBar = styled.span`
 width:${props => (props.width ? props.width : "50%")};
-height: 1px;
+height: ${props => (props.height ? props.height : "1px")};
 background: ${colors.Theme_green_2};
-margin-top:20px;
+margin-top:${props => (props.mt ? props.mt : "30px")};
 `

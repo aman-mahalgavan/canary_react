@@ -3,7 +3,7 @@ import Styles from "../../styles/_index";
 
 export default function CampaignCard(props) {
     return (
-        <Styles.CampaignCardStyle>
+        <div>
             <img src={props.campaign.headerImage} alt="Header Image" />
             <Styles.CampaignCardContent>
                 <h3>{props.campaign.heading}</h3>
@@ -14,6 +14,6 @@ export default function CampaignCard(props) {
                 <span className="raised">50% funded</span>
 
             </Styles.CampaignCardContent>
-        </Styles.CampaignCardStyle>
+        </div>
     )
 }
