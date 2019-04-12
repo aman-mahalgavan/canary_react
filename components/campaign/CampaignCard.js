@@ -1,7 +1,12 @@
 import React from 'react';
 import Styles from "../../styles/_index";
+import { calculateRaisedPercentage, weiToEther } from "../../utils/etherUtils";
+
 
 export default function CampaignCard(props) {
+
+    let raisedPercentage = calculateRaisedPercentage(props.campaignSummary[6], props.campaignSummary[1])
+    let progressBarWidth = `${raisedPercentage}%`
     return (
         <div>
             <img src={props.campaign.headerImage} alt="Header Image" />
@@ -9,9 +14,9 @@ export default function CampaignCard(props) {
                 <h3>{props.campaign.heading}</h3>
                 <p>{props.campaign.intro}</p>
                 <span>By Ankit Brahmbhatt</span>
-                <Styles.ProgressBar />
-                <span className="goal">20 Eth Pledged</span>
-                <span className="raised">50% funded</span>
+                <Styles.ProgressBar width={progressBarWidth} />
+                <span className="goal">{weiToEther(props.campaignSummary[6])} Eth Pledged</span>
+                <span className="raised">{raisedPercentage}% funded</span>
 
             </Styles.CampaignCardContent>
         </div>

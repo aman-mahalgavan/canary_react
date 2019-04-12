@@ -25,9 +25,9 @@ class MyApp extends App {
         if (token) {
             let formattedToken = formatToken(token);
 
-            setAuthToken(formattedToken);
+            // setAuthToken(formattedToken);
 
-            await ctx.store.dispatch(resetUser());
+            await ctx.store.dispatch(resetUser(formattedToken));
         }
 
         let pageProps = {}

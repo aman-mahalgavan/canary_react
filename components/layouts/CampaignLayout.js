@@ -1,5 +1,6 @@
 import React from 'react';
 import Styles from "../../styles/_index";
+import { calculateRaisedPercentage, weiToEther } from "../../utils/etherUtils";
 
 export default function CampaignLayout({ parentProps }) {
     let { singleCampaign } = parentProps.campaign;
@@ -8,8 +9,8 @@ export default function CampaignLayout({ parentProps }) {
         <div>
             <Styles.CampaignHeader>
                 <div className="user-meta">
-                    <img src={singleCampaign.headerImage} alt="" />
-                    <span>By Ankit Brahimbhatt</span>
+                    <img src={singleCampaign.creatorId.avatar} alt="" />
+                    <span>By {singleCampaign.creatorId.name}</span>
                     <b>3 Created</b>
                 </div>
                 <div className="agenda">
@@ -26,7 +27,7 @@ export default function CampaignLayout({ parentProps }) {
                     <div id="info">
                         <Styles.ProgressBar height="3px" mt="0" />
                         <span>
-                            {parentProps.balance} ETH <b>collected of {parentProps.goal} ETH</b>
+                            {weiToEther(parentProps.balance)} ETH <b>collected of {weiToEther(parentProps.goal)} ETH</b>
                         </span>
                         <span>
                             {parentProps.contributors} <b>contributers</b>
@@ -35,7 +36,7 @@ export default function CampaignLayout({ parentProps }) {
                             20 <b>days to go</b>
                         </span>
                         <span>
-                            0.01 <b>minimum subscription</b>
+                            {weiToEther(parentProps.minimumContribution)} ETH <b>minimum contribution</b>
                         </span>
                     </div>
                 </section>

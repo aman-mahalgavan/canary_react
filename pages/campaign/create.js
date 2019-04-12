@@ -9,7 +9,8 @@ import InputComponent from "../../components/partials/InputComponent";
 import TextAreaInputComponent from "../../components/partials/TextAreaInputComponent";
 import web3 from "../../Ethereum/web3";
 import campaignCreator from "../../Ethereum/campaignCreator";
-import getAccount from "../../utils/getAccount";
+import { daysToBlockNumber } from "../../utils/etherUtils";
+
 import validate from "../../utils/validate";
 
 class create extends Component {
@@ -54,8 +55,15 @@ class create extends Component {
             try {
                 let { minimumContribution, deadline, goal } = this.state;
 
+                // Converting ether values to wei
+                let formattedContribution = web3.utils.toWei(minimumContribution, "ether");
+                let formattedGoal = web3.utils.toWei(goal, "ether");
+
+                // formatting the days entered to blocknumber
+                let formattedDeadline = daysToBlockNumber(deadline);
+
                 // creating the campaign and getting the transaction details
-                let transactionDetails = await campaignCreator.methods.createCampaign(deadline, goal, minimumContribution).send({ from: address });
+                let transactionDetails = await campaignCreator.methods.createCampaign(formattedDeadline, formattedGoal, formattedContribution).send({ from: address });
 
                 // fetching the campaign address from the transaction details
                 let campaignAddress = transactionDetails.events.DeployedCampaignAddress.returnValues._campaign;

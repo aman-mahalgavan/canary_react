@@ -4,6 +4,10 @@ import Styles from "../../styles/_index";
 import { getCampaignByAddress } from "../../redux/actions/campaignAction";
 import Campaign from "../../Ethereum/campaign";
 import { connect } from "react-redux";
+import validate from "../../utils/validate";
+import { etherToWei } from "../../utils/etherUtils";
+import WithProfile from "../../components/hoc/WithProfile";
+
 class show extends Component {
 
     static async getInitialProps(ctx) {
@@ -27,10 +31,27 @@ class show extends Component {
         } catch (err) {
             console.log(err);
         }
+    }
 
+    state = {
+        contribution: ""
+    }
+    onChange = e => {
+        let contribution = etherToWei(e.target.value);
+        this.setState(() => {
+            return {
+                contribution
+            }
+        })
+    }
 
+    onContribute = async e => {
+        e.preventDefault();
 
     }
+
+
+
 
     render() {
         const { singleCampaign } = this.props.campaign;
@@ -57,13 +78,13 @@ class show extends Component {
 
                             </p>
                         </Styles.CampaignInfo>
-                        <form action="" id="contribution">
+                        <form action="" id="contribution" onSubmit={this.onContribute}>
                             <label htmlFor="">Make a contribution</label>
                             <div className="input-group">
                                 <input type="text" />
                                 <span>ETH</span>
                             </div>
-                            <Styles.ButtonStyle style={{ fontWeight: "bold" }} color="#fff" bg="#1ba94c">
+                            <Styles.ButtonStyle style={{ fontWeight: "bold" }} color="#fff" bg="#1ba94c" onChange={this.onChange} value={this.state.contribution}>
                                 Contribute
 					</Styles.ButtonStyle>
                         </form>
@@ -84,4 +105,4 @@ const mapStateToprops = state => {
     }
 }
 
-export default connect(mapStateToprops)(show);
+export default connect(mapStateToprops)(WithProfile(show));

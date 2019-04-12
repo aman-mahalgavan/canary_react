@@ -126,8 +126,8 @@ export const updateAddress = (address) => async dispatch => {
 export const fetchUser = async () => {
 
     let res = await axios.get(`${URI}/auth/user`);
-
     return res.data;
+
 
 }
 

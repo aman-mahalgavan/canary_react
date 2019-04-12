@@ -36,7 +36,7 @@ export const CampaignHeader = styled.div`
 	.user-meta {
     flex-basis:300px;
 		img {
-			width: 105px;
+			width: 90px;
 			height: 75px;
       border: 1px solid #dcdcdc;
       border-radius:10px;
