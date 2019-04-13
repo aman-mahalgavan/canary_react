@@ -28,7 +28,7 @@ label{
 export const CampaignContainer = styled.div`
 	width:1200px;
 	background: #fff;
-	margin: 55px auto;
+	margin: 20px auto;
 	padding: 15px;
 `;
 export const CampaignHeader = styled.div`

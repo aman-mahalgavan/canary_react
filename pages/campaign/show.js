@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import CampaignLayout from "../../components/layouts/CampaignLayout";
 import Styles from "../../styles/_index";
-import { getCampaignByAddress } from "../../redux/actions/campaignAction";
+import { getCampaignByAddress, contribute } from "../../redux/actions/campaignAction";
 import Campaign from "../../Ethereum/campaign";
 import { connect } from "react-redux";
 import validate from "../../utils/validate";
 import { etherToWei } from "../../utils/etherUtils";
-import WithProfile from "../../components/hoc/WithProfile";
+import { Router } from "../../routes";
+import CampaignNav from "../../components/partials/CampaignNav";
 
 class show extends Component {
 
@@ -36,8 +37,10 @@ class show extends Component {
     state = {
         contribution: ""
     }
+
     onChange = e => {
-        let contribution = etherToWei(e.target.value);
+        let contribution = e.target.value;
+
         this.setState(() => {
             return {
                 contribution
@@ -47,6 +50,29 @@ class show extends Component {
 
     onContribute = async e => {
         e.preventDefault();
+        if (this.props.auth.isAuthenticated) {
+            let { hasProfile, address } = this.props.auth.user;
+
+            try {
+                let { isEligible, errors } = await validate(hasProfile, address);
+                if (isEligible) {
+
+                    const campaign = Campaign(this.props.campaign.singleCampaign.campaignAddress);
+                    await campaign.methods.contribute().send({
+                        from: address,
+                        value: etherToWei(this.state.contribution)
+                    });
+
+                    await this.props.contribute(this.props.campaign.singleCampaign.campaignAddress, this.props.auth.token);
+                } else {
+                    console.log(errors);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            Router.pushRoute("/login");
+        }
 
     }
 
@@ -56,18 +82,11 @@ class show extends Component {
     render() {
         const { singleCampaign } = this.props.campaign;
         return (
-            <Styles.CampaignContainer>
-                <CampaignLayout parentProps={this.props} />
-                <Styles.CampaignBottomContent>
 
-                    <nav>
-                        <a className="active" href="">
-                            Campaign
-				</a>
-                        <a href="">FAQ</a>
-                        <a href="">Updates</a>
-                        <a href="">Comments</a>
-                    </nav>
+            <CampaignLayout parentProps={this.props}>
+                <Styles.CampaignBottomContent>
+                    <CampaignNav campaign="true" address={singleCampaign.campaignAddress} />
+
                     <main className="campaign-about">
                         <Styles.CampaignInfo>
                             <h3>About</h3>
@@ -81,17 +100,18 @@ class show extends Component {
                         <form action="" id="contribution" onSubmit={this.onContribute}>
                             <label htmlFor="">Make a contribution</label>
                             <div className="input-group">
-                                <input type="text" />
+                                <input type="text" onChange={this.onChange} value={this.state.contribution} />
                                 <span>ETH</span>
                             </div>
-                            <Styles.ButtonStyle style={{ fontWeight: "bold" }} color="#fff" bg="#1ba94c" onChange={this.onChange} value={this.state.contribution}>
+                            <Styles.ButtonStyle style={{ fontWeight: "bold" }} color="#fff" bg="#1ba94c" >
                                 Contribute
 					</Styles.ButtonStyle>
                         </form>
                     </main>
 
                 </Styles.CampaignBottomContent>
-            </Styles.CampaignContainer>
+            </CampaignLayout>
+
         )
     }
 }
@@ -105,4 +125,4 @@ const mapStateToprops = state => {
     }
 }
 
-export default connect(mapStateToprops)(WithProfile(show));
+export default connect(mapStateToprops, { contribute })(show);

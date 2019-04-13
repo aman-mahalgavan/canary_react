@@ -77,7 +77,7 @@ class create extends Component {
                     about: this.state.about,
                     campaignImage: this.state.headerImage
                 }
-                this.props.createCampaign(campaignData);
+                this.props.createCampaign(campaignData, this.props.auth.token);
             } catch (err) {
                 console.log(err);
             }

@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Styles from "../../styles/_index";
 import { Link } from "../../routes";
+import DashboardCard from "../partials/DashboardCampaignCard";
 
-export default function Campaigns() {
-    return (
-        <Styles.DashboardMainContent>
+
+export default class Campaign extends Component {
+
+
+    renderCards = () => {
+        return this.props.campaigns.map((campaign, index) => {
+            return (
+                <DashboardCard key={index} campaign={campaign} campaignSummary={this.props.campaignsSummary[index]} />
+            )
+        })
+    }
+
+    render() {
+        return (<Styles.DashboardMainContent>
             <Styles.DashboardSwitchTab>
                 <Link route="/dashboard/campaigns">
                     <a className="active">Campaigns</a>
@@ -13,6 +25,7 @@ export default function Campaigns() {
                     <a >Contributions</a>
                 </Link>
             </Styles.DashboardSwitchTab>
-        </Styles.DashboardMainContent>
-    )
+            {this.renderCards()}
+        </Styles.DashboardMainContent>)
+    }
 }

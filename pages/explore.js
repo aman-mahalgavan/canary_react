@@ -53,7 +53,7 @@ class explore extends Component {
     render() {
         return (
             <Styles.ExploreContainerStyle>
-                {this.renderCampaignCards()}
+                {this.props.campaigns ? this.renderCampaignCards() : "No Campaign Created Yet"}
             </Styles.ExploreContainerStyle>
         )
     }

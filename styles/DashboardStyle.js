@@ -163,7 +163,7 @@ export const DashboardSwitchTab = styled.div`
 	
 	width: 100%;
 	display: flex;
-	
+	margin-bottom:70px;
 	background: #fff;
 	align-items: center;
 	
@@ -180,6 +180,27 @@ export const DashboardSwitchTab = styled.div`
 		}
 	}
 `;
+
+
+export const DashboardCampaignCardContainer = styled.div`
+display:flex;
+justify-content:space-between;
+margin-bottom:40px;
+img{
+	width:170px;
+	height:150px;
+	flex:1;	
+	margin-right:30px;
+}
+& .content{
+	flex:2;
+	h2{
+		color:${colors.Dark_3};
+		font-size:20px;
+	}
+}
+
+`
 
 export const DashboardRightStyle = styled.div`
 width:${props => (props.space ? props.space : "0px")};

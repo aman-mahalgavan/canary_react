@@ -50,7 +50,7 @@ class createProfile extends Component {
         };
 
 
-        this.props.createUserProfile(profileData);
+        this.props.createUserProfile(profileData, this.props.auth.token);
     };
 
     //handler function onChanging the input value everytime
@@ -170,7 +170,8 @@ class createProfile extends Component {
 
 const mapStateToProps = state => {
     return {
-        errors: state.errors
+        errors: state.errors,
+        auth: state.auth
     };
 };
 export default connect(

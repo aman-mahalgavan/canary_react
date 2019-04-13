@@ -10,18 +10,21 @@ export default (Page) => {
     static async getInitialProps(ctx) {
 
 
-      try {
-        await ctx.store.dispatch(getUserProfile());
+      if (ctx.token) {
+        try {
+          await ctx.store.dispatch(getUserProfile(ctx.token));
 
-        if (Page.getInitialProps) {
-          return { ...await Page.getInitialProps(ctx) };
+
+        } catch (err) {
+          console.log(err);
         }
-        return {}
 
-      } catch (err) {
-        console.log(err);
       }
 
+      if (Page.getInitialProps) {
+        return { ...await Page.getInitialProps(ctx) };
+      }
+      return {}
 
     }
 

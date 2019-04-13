@@ -2,13 +2,13 @@
 import axios from "axios";
 import { SET_CAMPAIGN, SET_CAMPAIGNS, ERRORS } from "./types";
 import { Router } from "../../routes";
-import setDefaultHeader from "../../utils/setDefaultHeader";
+import getAuthToken from "../../utils/getAuthToken";
 const URI = "http://localhost:12000/api";
 
 
 
 // creating a campaign
-export const createCampaign = (campaignData) => async dispatch => {
+export const createCampaign = (campaignData, token) => async dispatch => {
 
     let data = new FormData();
     for (let key in campaignData) {
@@ -16,10 +16,10 @@ export const createCampaign = (campaignData) => async dispatch => {
 
     }
 
-    setDefaultHeader();
+    let headers = { authorization: token }
 
     try {
-        let res = await axios.post(`${URI}/campaign/create`, data);
+        let res = await axios.post(`${URI}/campaign/create`, data, { headers });
         dispatch(setCampaign(res.data));
         Router.pushRoute("/dashboard");
     } catch (err) {
@@ -61,6 +61,30 @@ export const getCampaignByAddress = (address) => async dispatch => {
         dispatch(setSingleCampaign(res.data));
     } catch (err) {
         let { errors } = err.response.data;
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+export const contribute = (address, token) => async dispatch => {
+    let headers = { authorization: token }
+    try {
+        let res = await axios.post(`${URI}/campaign/contribute`, { address }, { headers });
+        Router.replaceRoute(`/campaign/${address}`);
+    }
+    catch (err) {
+
+        let errors = {};
+
+        if (err.response.data === "Unauthorized") {
+            errors.unauthorized = "Invalid Token";
+        }
+        else {
+            errors = err.response.data.errors
+        }
+
         dispatch({
             type: ERRORS,
             errors

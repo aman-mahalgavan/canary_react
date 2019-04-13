@@ -2,11 +2,13 @@ import React from 'react';
 import Styles from "../../styles/_index";
 import { calculateRaisedPercentage, weiToEther } from "../../utils/etherUtils";
 
-export default function CampaignLayout({ parentProps }) {
+export default function CampaignLayout({ parentProps, children }) {
     let { singleCampaign } = parentProps.campaign;
+    let raisedPercentage = calculateRaisedPercentage(parentProps.goal, parentProps.balance)
 
-    return (
-        <div>
+    let progressBarWidth = (raisedPercentage <= 100) ? `${raisedPercentage}%` : "100%";
+    return (<>
+        <Styles.CampaignContainer>
             <Styles.CampaignHeader>
                 <div className="user-meta">
                     <img src={singleCampaign.creatorId.avatar} alt="" />
@@ -25,7 +27,7 @@ export default function CampaignLayout({ parentProps }) {
                 <section id="main-content">
                     <img src={singleCampaign.headerImage} alt="" />
                     <div id="info">
-                        <Styles.ProgressBar height="3px" mt="0" />
+                        <Styles.ProgressBar height="3px" mt="0" width={progressBarWidth} />
                         <span>
                             {weiToEther(parentProps.balance)} ETH <b>collected of {weiToEther(parentProps.goal)} ETH</b>
                         </span>
@@ -42,6 +44,7 @@ export default function CampaignLayout({ parentProps }) {
                 </section>
 
             </Styles.CampaignMiddleContent>
-        </div>
-    )
+            {children}
+        </Styles.CampaignContainer>
+    </>)
 }

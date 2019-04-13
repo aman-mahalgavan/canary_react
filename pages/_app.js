@@ -3,8 +3,8 @@ import App, { Container } from 'next/app';
 import withRedux from 'next-redux-wrapper';
 import initStore from '../redux/configureStore';
 import { getCookie } from "../utils/cookie";
-import { resetUser } from "../redux/actions/authActions";
-import setAuthToken from "../utils/setAuthToken";
+import { resetUser, setToken } from "../redux/actions/authActions";
+
 import { formatToken } from "../utils/formatToken";
 import BaseLayout from "../components/layouts/BaseLayout.js"
 import axios from "axios";
@@ -13,6 +13,7 @@ class MyApp extends App {
         let appProps = {};
 
         let token;
+        let formattedToken
         if (ctx.isServer) {
             if (ctx.req.headers.cookie) {
                 token = getCookie("authorization", ctx.req);
@@ -23,20 +24,22 @@ class MyApp extends App {
             token = getCookie("authorization");
         }
         if (token) {
-            let formattedToken = formatToken(token);
+            formattedToken = formatToken(token);
 
             // setAuthToken(formattedToken);
 
             await ctx.store.dispatch(resetUser(formattedToken));
+            ctx.store.dispatch(setToken(formattedToken))
         }
 
         let pageProps = {}
+        ctx.token = formattedToken;
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
         appProps = { pageProps }
 
-        return { ...appProps }
+        return { ...appProps, token: formattedToken }
     }
 
     render() {

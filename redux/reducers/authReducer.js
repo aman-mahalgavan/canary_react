@@ -1,9 +1,10 @@
-import { SET_CURRENT_USER, UPDATE_HAS_PROFILE } from "../actions/types";
+import { SET_CURRENT_USER, UPDATE_HAS_PROFILE, SET_TOKEN } from "../actions/types";
 import isEmpty from "../../utils/isEmpty";
 
 const initialState = {
     isAuthenticated: false,
-    user: {}
+    user: {},
+    token: ""
 };
 
 
@@ -21,6 +22,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 user: { ...state.user, hasProfile: true }
+            }
+        case SET_TOKEN:
+            return {
+                ...state,
+                token: action.token
             }
         default:
             return state

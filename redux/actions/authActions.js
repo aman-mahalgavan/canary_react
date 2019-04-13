@@ -1,9 +1,9 @@
-import { SET_CURRENT_USER } from "./types";
+import { SET_CURRENT_USER, SET_TOKEN } from "./types";
 import { ERRORS } from "./types";
 import axios from "axios";
 import { Router } from "../../routes";
 import { formatToken } from "../../utils/formatToken";
-import setAuthToken from "../../utils/setAuthToken";
+
 import { setCookie, removeCookie, getCookieFromBrowser } from "../../utils/cookie";
 
 
@@ -15,9 +15,9 @@ export const loginUser = userData => async (dispatch) => {
         let res = await axios.post(`${URI}/auth/login`, userData);
         let { token } = res.data;
         setCookie("authorization", token);
-        setAuthToken(token);
-        let user = await fetchUser();
 
+        let user = await fetchUser(token);
+        dispatch(setToken(token));
         dispatch(setCurrentUser(user));
         Router.pushRoute("/dashboard");
     } catch (err) {
@@ -38,6 +38,7 @@ export const registerUser = userData => async (dispatch) => {
         Router.pushRoute("/login");
 
     } catch (err) {
+        console.log(err);
         let { errors } = err.response.data;
 
         dispatch({
@@ -53,7 +54,7 @@ export const registerUser = userData => async (dispatch) => {
 export const resetUser = token => async (dispatch) => {
     try {
 
-        let user = await fetchUser();
+        let user = await fetchUser(token);
 
         dispatch(setCurrentUser(user));
     } catch (err) {
@@ -72,9 +73,10 @@ export const resetUser = token => async (dispatch) => {
 
 //logging out the user
 export const logoutUser = () => dispatch => {
-    setAuthToken();
+
     removeCookie("authorization");
     dispatch(setCurrentUser({}));
+    dispatch(setToken(""));
     Router.pushRoute("/login");
 }
 
@@ -106,7 +108,7 @@ export const updateAddress = (address) => async dispatch => {
         let token = getCookieFromBrowser("authorization");
         let formattedToken = formatToken(token);
         let headers = { "authorization": token }
-        let res = await axios.post(`${URI}/auth/updateAddress`, { address }, { headers: headers });
+        let res = await axios.post(`${URI}/auth/updateAddress`, { address }, { headers });
 
         Router.pushRoute("/dashboard");
     } catch (err) {
@@ -123,12 +125,20 @@ export const updateAddress = (address) => async dispatch => {
 }
 
 //fetching the user using the token
-export const fetchUser = async () => {
+export const fetchUser = async (token) => {
 
-    let res = await axios.get(`${URI}/auth/user`);
+    let headers = { authorization: token }
+    let res = await axios.get(`${URI}/auth/user`, { headers });
     return res.data;
 
 
+}
+
+export const setToken = token => {
+    return {
+        type: SET_TOKEN,
+        token
+    }
 }
 
 

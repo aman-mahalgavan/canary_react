@@ -1,5 +1,6 @@
 
 import { Link } from "../routes";
+import GuestPage from "../components/hoc/GuestPage";
 
 
 import React, { Component } from 'react'
@@ -25,10 +26,10 @@ class index extends Component {
 }
 
 
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state) => {
     return {
-        auth:state.auth
+        auth: state.auth
     }
 }
 
-export default index;
+export default GuestPage(index);

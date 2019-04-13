@@ -11,7 +11,7 @@ export default (Page) => {
 
             let isAuthenticated = ctx.store.getState().auth.isAuthenticated;
             if (isAuthenticated) {
-                Redirect("/", ctx);
+                Redirect("/dashboard", ctx);
             }
             else {
 
