@@ -10,16 +10,14 @@ import privatePage from "../../components/hoc/PrivatePage";
 import WithProfile from "../../components/hoc/WithProfile";
 import WithBlockNumber from "../../components/hoc/WithBlockNumber";
 
-
-class dashboard extends Component {
-
+class contributions extends Component {
 
 
 
+    // fetching the campaign summary from the blockchain
     static async getInitialProps(ctx) {
         try {
-
-            let campaigns = ctx.store.getState().profile.userProfile.campaigns;
+            let campaigns = ctx.store.getState().profile.userProfile.contributions;
 
             if (campaigns) {
                 let campaignsSummary = await Promise.all(campaigns.map(async singleCampaign => {
@@ -33,7 +31,6 @@ class dashboard extends Component {
                 }
             }
 
-
         } catch (err) {
             console.log(err);
         }
@@ -44,6 +41,8 @@ class dashboard extends Component {
     renderDashboard = () => {
         let { user } = this.props.auth;
         let { userProfile } = this.props.profile;
+
+        // Initial dashboard if profile is not created
         let initialDashboard = (<Styles.DefaultDashboard>
             <h2>You Have'nt Created any profile yet</h2>
             <Link route="/dashboard/createProfile">
@@ -52,6 +51,8 @@ class dashboard extends Component {
         </Styles.ButtonStyle></Link>
         </Styles.DefaultDashboard>
         )
+
+        // if user has profile then rendering the Profile elements
         if (user.hasProfile) {
             return (
                 <Styles.DashboardContainerStyle>
@@ -62,6 +63,7 @@ class dashboard extends Component {
 
                     <Campaigns
                         blockNumber={this.props.blockNumber}
+                        contributionPage="true"
                         campaigns={this.props.campaigns}
                         campaignsSummary={this.props.campaignsSummary}
                     />
@@ -73,6 +75,8 @@ class dashboard extends Component {
 
             );
         }
+
+        // else rendering the initial Dashboard
         else {
             return initialDashboard;
         }
@@ -98,4 +102,4 @@ const mapStateToProps = (state) => {
 }
 const FinalHoc = compose(privatePage, WithProfile, WithBlockNumber);
 
-export default connect(mapStateToProps)(FinalHoc(dashboard));
+export default connect(mapStateToProps)(FinalHoc(contributions));

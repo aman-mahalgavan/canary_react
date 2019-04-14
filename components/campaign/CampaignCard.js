@@ -3,11 +3,15 @@ import Styles from "../../styles/_index";
 import { calculateRaisedPercentage, weiToEther } from "../../utils/etherUtils";
 
 
+
 export default function CampaignCard(props) {
 
     let raisedPercentage = calculateRaisedPercentage(props.campaignSummary[6], props.campaignSummary[1])
 
     let progressBarWidth = (raisedPercentage <= 100) ? `${raisedPercentage}%` : "100%";
+
+
+
     return (
         <div>
             <img src={props.campaign.headerImage} alt="Header Image" />

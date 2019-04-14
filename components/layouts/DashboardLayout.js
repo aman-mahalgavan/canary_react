@@ -11,6 +11,7 @@ class DashboardLayout extends Component {
     connectToEthereum = async (e) => {
         try {
             let currentAccount = await getAccount();
+            console.log(currentAccount);
             await this.props.updateAddress(currentAccount);
         } catch (err) {
             console.log(err);

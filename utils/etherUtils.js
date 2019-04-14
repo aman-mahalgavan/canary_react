@@ -13,7 +13,17 @@ export const blockNumberToDays = (blockNumber) => {
 
 
 export const calculateRemainingDays = (deadline, currentBlock) => {
+    let remainingBlocks = deadline - currentBlock;
 
+    let deadlineCrossed = false;
+    let remainingDays;
+    if (remainingBlocks < 0) {
+        deadlineCrossed = true;
+    }
+    else {
+        remainingDays = blockNumberToDays(remainingBlocks);
+    }
+    return { deadlineCrossed, remainingDays }
 }
 
 export const etherToWei = (value) => {

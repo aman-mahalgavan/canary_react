@@ -5,16 +5,17 @@ import { getCampaignByAddress, contribute } from "../../redux/actions/campaignAc
 import Campaign from "../../Ethereum/campaign";
 import { connect } from "react-redux";
 import validate from "../../utils/validate";
-import { etherToWei } from "../../utils/etherUtils";
+import { etherToWei, calculateRemainingDays } from "../../utils/etherUtils";
 import { Router } from "../../routes";
 import CampaignNav from "../../components/partials/CampaignNav";
+import WithBlockNumber from "../../components/hoc/WithBlockNumber";
 
 class show extends Component {
 
     static async getInitialProps(ctx) {
 
         try {
-            ctx.store.dispatch(getCampaignByAddress(ctx.query.address));
+            await ctx.store.dispatch(getCampaignByAddress(ctx.query.address));
             const campaign = Campaign(ctx.query.address);
 
             const summary = await campaign.methods.getSummary().call();
@@ -81,6 +82,7 @@ class show extends Component {
 
     render() {
         const { singleCampaign } = this.props.campaign;
+        let { deadlineCrossed } = calculateRemainingDays(this.props.deadline, this.props.blockNumber);
         return (
 
             <CampaignLayout parentProps={this.props}>
@@ -103,7 +105,12 @@ class show extends Component {
                                 <input type="text" onChange={this.onChange} value={this.state.contribution} />
                                 <span>ETH</span>
                             </div>
-                            <Styles.ButtonStyle style={{ fontWeight: "bold" }} color="#fff" bg="#1ba94c" >
+                            <Styles.ButtonStyle
+                                style={{ fontWeight: "bold" }}
+                                color="#fff"
+                                bg="#1ba94c"
+                                disabled={deadlineCrossed}
+                            >
                                 Contribute
 					</Styles.ButtonStyle>
                         </form>
@@ -125,4 +132,4 @@ const mapStateToprops = state => {
     }
 }
 
-export default connect(mapStateToprops, { contribute })(show);
+export default connect(mapStateToprops, { contribute })(WithBlockNumber(show));

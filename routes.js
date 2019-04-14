@@ -13,6 +13,9 @@ module.exports = routes()
     .add("/campaign/:address/comments", "campaign/comment")
     .add("/dashboard", 'dashboard/index')
     .add("/dashboard/create", "dashboard/createProfile")
+    .add("/dashboard/campaigns", "dashboard/contributions")
+    .add("/dashboard/:address/requests", "dashboard/requests/index")
+    .add("/dashboard/:address/requests/create", "dashboard/requests/createRequest")
     .add("/explore", "explore")
 
     ;

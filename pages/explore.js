@@ -4,6 +4,7 @@ import { getAllCampaigns } from "../redux/actions/campaignAction";
 import Campaign from "../Ethereum/campaign";
 import CampaignCard from "../components/campaign/CampaignCard";
 import Styles from "../styles/_index";
+import web3 from "../Ethereum/web3";
 
 class explore extends Component {
 
@@ -16,6 +17,7 @@ class explore extends Component {
                     let campaign = Campaign(singleCampaign.campaignAddress);
                     return campaign.methods.getSummary().call()
                 }));
+
                 return {
                     campaigns,
                     campaignsSummary

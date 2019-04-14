@@ -137,23 +137,29 @@ export const RequestMainContent = styled.div`
 	.request-box {
 		width: 500px;
 		background: #fff;
-		padding: 15px;
-		margin: 15px 0;
+		border:1px solid #a9a9a9;
+		
+		margin: 15px 0 30px 0;
 		&:first-child {
 			margin-top: 0;
+		}
+		
+		& .content{
+			padding:15px;
+			
 		}
 		hr {
 			display: block;
 			background: #a9a9a9;
-			margin: 15px 0;
+			margin: 10px 0 0 0;
 		}
-		p {
-			margin-top: 10px;
-			color: #a9a9a9;
-
-			b {
-				color: green;
-			}
+		p{
+			color:${colors.Dark_3};
+			margin:5px 0;
+		}
+		span{
+			color:${colors.Theme_green_2};
+			margin:5px 0;
 		}
 	}
 `;
@@ -161,9 +167,10 @@ export const RequestMainContent = styled.div`
 
 export const DashboardSwitchTab = styled.div`
 	
-	width: 100%;
+	width: 60%;
 	display: flex;
-	margin-bottom:70px;
+	margin:0 auto;
+	margin-bottom:50px;
 	background: #fff;
 	align-items: center;
 	
@@ -185,7 +192,7 @@ export const DashboardSwitchTab = styled.div`
 export const DashboardCampaignCardContainer = styled.div`
 display:flex;
 justify-content:space-between;
-margin-bottom:40px;
+
 img{
 	width:170px;
 	height:150px;
@@ -197,13 +204,60 @@ img{
 	h2{
 		color:${colors.Dark_3};
 		font-size:20px;
+		cursor:pointer;
+	}
+	& .middle-content{
+		display:flex;
+		justify-content:space-between;
+		font-size:14px;
+		p{
+			color:${colors.Dark_3};
+			margin:5px 0;
+		}
+		span{
+			color:${colors.Light_Grey_1};
+			margin:5px 0;
+		}
+
+		& .left{
+			flex:1;
+			margin:5px 0;
+		}
+		& .right{
+			flex:1;
+			margin:5px 0;
+		}
 	}
 }
 
 `
+export const DashboardCardDivider = styled.div`
+width:100%;
+height:2px;
+background:${colors.Light_Grey_2};
+margin:20px 0;
+`
+
+export const RequestFormContainer = styled.form`
+
+
+text-align:center;
+& h1{
+    color:${colors.Dark_1};
+    margin:10px 0 10px 0;
+}
+& p{
+    color:${colors.Light_Grey_1};
+    font-size:22px;
+    margin-bottom:30px;
+}
+& .form-group {
+    margin: 20px 0px;
+}
+`
 
 export const DashboardRightStyle = styled.div`
-width:${props => (props.space ? props.space : "0px")};
+width:${props => (props.space ? props.space : "")};
 
 `;
 

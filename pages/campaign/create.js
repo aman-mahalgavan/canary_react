@@ -61,6 +61,7 @@ class create extends Component {
 
                 // formatting the days entered to blocknumber
                 let formattedDeadline = daysToBlockNumber(deadline);
+                console.log(formattedDeadline);
 
                 // creating the campaign and getting the transaction details
                 let transactionDetails = await campaignCreator.methods.createCampaign(formattedDeadline, formattedGoal, formattedContribution).send({ from: address });

@@ -1,10 +1,13 @@
 import React from 'react';
 import Styles from "../../styles/_index";
-import { calculateRaisedPercentage, weiToEther } from "../../utils/etherUtils";
+import { calculateRaisedPercentage, weiToEther, calculateRemainingDays } from "../../utils/etherUtils";
 
 export default function CampaignLayout({ parentProps, children }) {
     let { singleCampaign } = parentProps.campaign;
     let raisedPercentage = calculateRaisedPercentage(parentProps.goal, parentProps.balance)
+
+
+    let { deadlineCrossed, remainingDays } = calculateRemainingDays(parentProps.deadline, parentProps.blockNumber);
 
     let progressBarWidth = (raisedPercentage <= 100) ? `${raisedPercentage}%` : "100%";
     return (<>
@@ -32,13 +35,16 @@ export default function CampaignLayout({ parentProps, children }) {
                             {weiToEther(parentProps.balance)} ETH <b>collected of {weiToEther(parentProps.goal)} ETH</b>
                         </span>
                         <span>
-                            {parentProps.contributors} <b>contributers</b>
+                            {parentProps.contributors} <b>contributors</b>
                         </span>
                         <span>
-                            20 <b>days to go</b>
+                            {remainingDays} <b>days to go</b>
                         </span>
                         <span>
                             {weiToEther(parentProps.minimumContribution)} ETH <b>minimum contribution</b>
+                        </span>
+                        <span>
+                            {(deadlineCrossed) ? "Campaign Ended" : ""}
                         </span>
                     </div>
                 </section>
