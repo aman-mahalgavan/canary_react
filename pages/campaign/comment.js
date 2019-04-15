@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import CampaignLayout from "../../components/layouts/CampaignLayout";
 import Styles from "../../styles/_index";
-import { getCampaignByAddress } from "../../redux/actions/campaignAction";
+import { getCampaignByAddress, addComment } from "../../redux/actions/campaignAction";
 import Campaign from "../../Ethereum/campaign";
 import { connect } from "react-redux";
-
-import { Router } from "../../routes";
+import TextAreaInputComponent from "../../components/partials/TextAreaInputComponent";
+import { Router, Link } from "../../routes";
 import CampaignNav from "../../components/partials/CampaignNav";
+import CommentCard from "../../components/partials/CommentCard";
 
 class comment extends Component {
 
@@ -34,8 +35,40 @@ class comment extends Component {
     }
 
 
+    state = {
+        comment: "",
+        errors: {}
+    }
+
+    onChange = e => {
+        let name = e.target.name;
+        let value = e.target.value;
+        this.setState(() => {
+            return {
+                [name]: value
+            };
+        });
+    };
+
+    onSubmit = async e => {
+        e.preventDefault();
+        let commentData = {
+            address: this.props.address,
+            comment: this.state.comment
+        }
+        if (this.state.comment) {
+            await this.props.addComment(commentData, this.props.auth.token);
+        }
+    }
+
+    renderComments = () => {
+        return this.props.campaign.singleCampaign.comments.map((comment, index) => {
+            return <CommentCard comment={comment} key={index} />
+        })
+    }
 
     render() {
+        let { errors } = this.state;
         const { singleCampaign } = this.props.campaign;
         return (
             <CampaignLayout parentProps={this.props}>
@@ -44,7 +77,29 @@ class comment extends Component {
                     <CampaignNav comment="true" address={singleCampaign.campaignAddress} />
                     <main className="campaign-comment">
 
-                        <h1>comment</h1>
+                        {this.props.auth.isAuthenticated ? (
+                            <form className="comment-form" onSubmit={this.onSubmit}>
+
+                                <TextAreaInputComponent
+                                    placeholder="Write a Comment"
+
+                                    value={this.state.comment}
+                                    name="comment"
+                                    error={errors.comment}
+                                    onChange={this.onChange}
+                                    height="100px"
+                                />
+
+                                <Styles.ButtonStyle bg="#1ba94c" color="#fff" type="submit" mg="5px 0" type="submit">Submit</Styles.ButtonStyle>
+                            </form>
+                        ) : (
+                                <div className="logged-out">
+                                    <p>Please <Link route="/login"><a>Login</a></Link> to Comment</p>
+                                </div>
+                            )}
+                        <div className="comments-display">
+                            {this.renderComments()}
+                        </div>
 
                     </main>
                 </Styles.CampaignBottomContent>
@@ -63,4 +118,4 @@ const mapStateToprops = state => {
     }
 }
 
-export default connect(mapStateToprops)(comment);
+export default connect(mapStateToprops, { addComment })(comment);

@@ -8,14 +8,15 @@ function TextAreaInputComponent({
     value,
     error,
     onChange,
-    disabled
+    disabled,
+    height
 }) {
     return (
         <div className="form-group">
             <Styles.StyledLabel htmlFor={name} color="red">{error ? error : ""}</Styles.StyledLabel>
             <Styles.TextAreaInputStyle
 
-
+                height={height}
                 placeholder={placeholder}
                 name={name}
                 value={value}

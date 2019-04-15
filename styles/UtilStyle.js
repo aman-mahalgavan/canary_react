@@ -11,7 +11,7 @@ box-sizing:border-box;
 
 export const TextAreaInputStyle = styled.textarea`
 	width:100%;
-	height:150px;
+	height:${props => (props.height ? props.height : "150px")};
     padding: 15px;
 	background: #f5f5f5;
 	border: none;

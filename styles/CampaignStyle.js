@@ -112,7 +112,7 @@ nav {
     }
   }
 }
-}
+
 .campaign-about {
 display: flex;
 justify-content: space-between;
@@ -151,7 +151,58 @@ form {
       padding: 10px;
     }
   }
+}
+}
+.campaign-comment{
+  
+  .logged-out{
+    background:#f5f5f5;
+    width:80%;
+    padding:15px;
+    margin:20px auto;
+    color:${colors.Dark_3};
+  }
+  .comment-form{
+    margin:40px auto;
+    width:80%;
+    
+  }
+  .comments-display{
+    background: #f5f5f5;
+    width:80%;
+    margin:0 auto;
+    padding:20px;
+  }
+
+}
 `
+
+
+export const CommentCardStyle = styled.div`
+min-height:100px;
+border:1px solid ${colors.Light_Grey_1};
+padding:15px;
+background:#fff;
+margin-bottom:20px;
+border-radius:5px;
+
+
+img{
+  float:left;
+  height:40px;
+  border-radius:50%
+}
+h4{
+  font-size:14px;
+  margin:5px 0 0 50px;
+  color:${colors.Light_Grey_1};
+}
+p{
+  font-size:18px;
+  margin-top:25px;
+  color:${colors.Dark_3};
+}
+`;
 
 export const CampaignInfo = styled.div`
 	margin: 25px 15px;
@@ -159,6 +210,7 @@ export const CampaignInfo = styled.div`
   flex-basis: 600px;
   line-height: 1.5;
 	h3 {
-		margin-bottom: 15px;
+    margin-bottom: 15px;
+    
 	}
 `;
