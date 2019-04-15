@@ -66,6 +66,7 @@ class contributions extends Component {
                         contributionPage="true"
                         campaigns={this.props.campaigns}
                         campaignsSummary={this.props.campaignsSummary}
+                        address={this.props.auth.user.address}
                     />
 
 

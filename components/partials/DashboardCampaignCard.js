@@ -1,45 +1,122 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Styles from "../../styles/_index";
-import { Link } from "../../routes";
+import { Link, Router } from "../../routes";
 import { calculateRaisedPercentage, calculateRemainingDays, weiToEther } from "../../utils/etherUtils";
+import getAccount from "../../utils/getAccount";
+import Campaign from "../../Ethereum/campaign";
+import compare from "../../utils/compareAddresses";
 
-export default function DashboardCampaignCard(props) {
-    let { campaignAddress } = props.campaign;
-    let { campaign, campaignSummary } = props;
-    let raisedPercentage = calculateRaisedPercentage(campaignSummary[6], campaignSummary[1]);
-    let { deadlineCrossed, remainingDays } = calculateRemainingDays(campaignSummary[5], props.blockNumber);
-    let campaignSucces = deadlineCrossed && (weiToEther(campaignSummary[1]) >= weiToEther(campaignSummary[6]));
-    return (
-        <>
-            <Styles.DashboardCampaignCardContainer>
-                <img src={campaign.campaignId.headerImage} alt="" />
-                <div className="content">
-                    <Link route={"/campaign/" + campaignAddress}><h2>{campaign.campaignId.heading}</h2></Link>
-                    <div className="middle-content">
-                        <div className="left">
-                            <p>Goal : <span>{weiToEther(campaignSummary[6])} ETH</span></p>
-                            <p>Funded : <span>{raisedPercentage}%</span></p>
+export default class DashboardCampaignCard extends Component {
+
+    getRefund = async e => {
+        console.log("Reached here")
+        console.log(this.props.campaign.campaignAddress);
+        try {
+            let account = await getAccount();
+            if (compare(account, this.props.address)) {
+                const campaign = Campaign(this.props.campaign.campaignAddress);
+                const isContributor = await campaign.methods.isContributor(this.props.address).call();
+                console.log(isContributor);
+                await campaign.methods.getRefund().send({
+                    from: account
+                });
+                Router.replaceRoute(`/dashboard/${this.props.campaign.campaignAddress}/requests`);
+            } else {
+                console.log(`Please Switch to Your Registered Address  :  ${this.props.address}`);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+    render() {
+
+
+
+
+        let { campaignAddress } = this.props.campaign;
+
+        let { campaign, campaignSummary } = this.props;
+
+        let raisedPercentage = calculateRaisedPercentage(campaignSummary[6], campaignSummary[1]);
+
+        let { deadlineCrossed, remainingDays } = calculateRemainingDays(campaignSummary[5], this.props.blockNumber);
+
+        let campaignSucces = deadlineCrossed && (weiToEther(campaignSummary[1]) >= weiToEther(campaignSummary[6]));
+        console.log(campaignSucces);
+
+
+
+
+        return (
+            <>
+                <Styles.DashboardCampaignCardContainer>
+                    <img src={campaign.campaignId.headerImage} alt="" />
+                    <div className="content">
+                        <Link route={"/campaign/" + campaignAddress}><h2>{campaign.campaignId.heading}</h2></Link>
+                        <div className="middle-content">
+                            <div className="left">
+                                <p>Goal : <span>{weiToEther(campaignSummary[6])} ETH</span></p>
+                                <p>Funded : <span>{raisedPercentage}%</span></p>
+                            </div>
+                            <div className="right">
+                                <p>Deadline : <span>{remainingDays} days</span></p>
+                                <p>Contributors : <span>{campaignSummary[3]}</span></p>
+                            </div>
                         </div>
-                        <div className="right">
-                            <p>Deadline : <span>{remainingDays} days</span></p>
-                            <p>Contributors : <span>{campaignSummary[3]}</span></p>
-                        </div>
+
+                        {/* Conditions for displaying button */}
+                        {!this.props.contributionPage ? (
+                            <Link route={"/dashboard/" + campaignAddress + "/requests"}>
+                                <Styles.ButtonStyle
+                                    border="2px solid #009E74"
+                                    bg="#fff"
+                                    color="#009E74"
+                                    bs="0"
+                                    disabled={!campaignSucces}
+                                >
+                                    View Requests
+                     </Styles.ButtonStyle>
+                            </Link>
+                        ) : (campaignSucces ? (
+                            <Link route={"/dashboard/" + campaignAddress + "/requests"}>
+                                <Styles.ButtonStyle
+                                    border="2px solid #009E74"
+                                    bg="#fff"
+                                    color="#009E74"
+                                    bs="0"
+
+                                >
+                                    View Requests
+                     </Styles.ButtonStyle>
+                            </Link>
+                        ) : (deadlineCrossed ? (
+                            <Styles.ButtonStyle
+                                border="2px solid #CD5C5C"
+                                bg="#fff"
+                                color="#CD5C5C"
+                                bs="0"
+                                onClick={this.getRefund}
+                            >
+                                WithDraw
+                 </Styles.ButtonStyle>
+                        ) : (
+                                <Styles.ButtonStyle
+                                    border="2px solid #CD5C5C"
+                                    bg="#fff"
+                                    color="#CD5C5C"
+                                    bs="0"
+                                    disabled={true}
+                                >
+                                View Requests
+                 </Styles.ButtonStyle>
+                            )))}
                     </div>
-                    <Link route={"/dashboard/" + campaignAddress + "/requests"}>
-                        <Styles.ButtonStyle
-                            border="2px solid #009E74"
-                            bg="#fff"
-                            color="#009E74"
-                            bs="0"
-                            disabled={!campaignSucces}
-                        >
-                            View Requests
-                         </Styles.ButtonStyle>
-                    </Link>
-                </div>
 
-            </Styles.DashboardCampaignCardContainer>
-            <Styles.DashboardCardDivider />
-        </>
-    )
+                </Styles.DashboardCampaignCardContainer>
+                <Styles.DashboardCardDivider />
+            </>
+        )
+    }
 }

@@ -64,6 +64,7 @@ class dashboard extends Component {
                         blockNumber={this.props.blockNumber}
                         campaigns={this.props.campaigns}
                         campaignsSummary={this.props.campaignsSummary}
+                        address={this.props.auth.user.address}
                     />
 
 

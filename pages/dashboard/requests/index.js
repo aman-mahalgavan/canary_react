@@ -17,9 +17,13 @@ class Requests extends Component {
     static async getInitialProps(ctx) {
         let { address } = ctx.query;
         const campaign = Campaign(address);
-        const requestCount = await campaign.methods.getRequestsCount().call();
-        const contributors = await campaign.methods.totalContributors().call();
-        const admin = await campaign.methods.admin().call();
+
+        const [requestCount, contributors, admin] = await Promise.all([
+            campaign.methods.getRequestsCount().call(),
+            campaign.methods.totalContributors().call(),
+            campaign.methods.admin().call()
+        ])
+
         const requests = await Promise.all(
             Array(parseInt(requestCount))
                 .fill()
@@ -27,15 +31,25 @@ class Requests extends Component {
                     return campaign.methods.requests(index).call();
                 })
         );
+        const userAddress = ctx.store.getState().auth.user.address;
+        const hasVoted = await Promise.all(
+            Array(parseInt(requestCount))
+                .fill()
+                .map((element, index) => {
+                    return campaign.methods.hasVoted(index, userAddress).call();
+                })
+        )
         return {
             address,
             requests,
             contributors,
-            admin
+            admin,
+            hasVoted
         }
     }
 
-    renderRequests = () => {
+
+    renderRequests = (isAdmin) => {
         return this.props.requests.map((request, index) => {
             return (
                 <RequestCard
@@ -44,13 +58,15 @@ class Requests extends Component {
                     key={index}
                     contributors={this.props.contributors}
                     address={this.props.address}
-
+                    isAdmin={isAdmin}
+                    hasVoted={this.props.hasVoted[index]}
+                    userAddress={this.props.auth.user.address}
                 />
             )
         })
     }
     render() {
-
+        let isAdmin = compare(this.props.admin, this.props.auth.user.address);
         let { userProfile } = this.props.profile;
         return (
             <Styles.DashboardContainerStyle>
@@ -58,14 +74,17 @@ class Requests extends Component {
 
                 <Styles.RequestMainContent>
 
-                    {this.props.requests.length > 0 ? this.renderRequests() : "No Request Created Yet"}
+                    {this.props.requests.length > 0 ? this.renderRequests(isAdmin) : "No Request Created Yet"}
                 </Styles.RequestMainContent>
 
 
 
 
 
-                {compare(this.props.admin, this.props.auth.user.address) ? <RequestSideContent address={this.props.address} /> : <Styles.DashboardRightStyle space="150px"></Styles.DashboardRightStyle>}
+                {isAdmin
+                    ? (<RequestSideContent address={this.props.address} />)
+                    : (<Styles.DashboardRightStyle space="150px"></Styles.DashboardRightStyle>)
+                }
             </Styles.DashboardContainerStyle>
         )
     }
