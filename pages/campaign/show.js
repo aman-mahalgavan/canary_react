@@ -9,6 +9,7 @@ import { etherToWei, calculateRemainingDays } from "../../utils/etherUtils";
 import { Router } from "../../routes";
 import CampaignNav from "../../components/partials/CampaignNav";
 import WithBlockNumber from "../../components/hoc/WithBlockNumber";
+import ButtonComponent from "../../components/partials/ButtonComponent";
 
 class show extends Component {
 
@@ -36,7 +37,8 @@ class show extends Component {
     }
 
     state = {
-        contribution: ""
+        contribution: "",
+        loadingButton: false
     }
 
     onChange = e => {
@@ -58,6 +60,10 @@ class show extends Component {
                 let { isEligible, errors } = await validate(hasProfile, address);
                 if (isEligible) {
 
+
+                    // setting state for loading Button
+                    this.setState({ loadingButton: true });
+
                     const campaign = Campaign(this.props.campaign.singleCampaign.campaignAddress);
                     await campaign.methods.contribute().send({
                         from: address,
@@ -65,6 +71,10 @@ class show extends Component {
                     });
 
                     await this.props.contribute(this.props.campaign.singleCampaign.campaignAddress, this.props.auth.token);
+
+
+                    // setting state for loading Button
+                    this.setState({ loadingButton: false, contribution: "" });
                 } else {
                     console.log(errors);
                 }
@@ -105,14 +115,17 @@ class show extends Component {
                                 <input type="text" onChange={this.onChange} value={this.state.contribution} />
                                 <span>ETH</span>
                             </div>
-                            <Styles.ButtonStyle
-                                style={{ fontWeight: "bold" }}
-                                color="#fff"
+
+
+                            <ButtonComponent
                                 bg="#1ba94c"
+                                color="#fff"
+                                type="submit"
+                                style={{ fontWeight: "bold" }}
+                                loading={this.state.loadingButton}
+                                value="Contribute"
                                 disabled={deadlineCrossed}
-                            >
-                                Contribute
-					</Styles.ButtonStyle>
+                            />
                         </form>
                     </main>
 
@@ -133,3 +146,14 @@ const mapStateToprops = state => {
 }
 
 export default connect(mapStateToprops, { contribute })(WithBlockNumber(show));
+
+
+
+// <Styles.ButtonStyle
+// style={{ fontWeight: "bold" }}
+// color="#fff"
+// bg="#1ba94c"
+// disabled={deadlineCrossed}
+// >
+// Contribute
+// </Styles.ButtonStyle>

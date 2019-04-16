@@ -4,7 +4,7 @@ import colors from "./colors";
 export const ButtonStyle = styled.button`
 	width: ${props => (props.width ? props.width : "100%")};
 	padding: 15px;
-	border: ${props => (props.border ? props.border : "none")};
+	border: ${props => (props.border ? props.border : "2px solid transparent")};
 	font-size:16px;
 	font-weight:800;
 	background: ${props => (props.bg ? props.bg : "#dcdcdc")};
@@ -15,7 +15,7 @@ export const ButtonStyle = styled.button`
 	:hover{
 		color:${props => (props.bg ? props.bg : "#dcdcdc")};
 		background: ${props => (props.color ? props.color : "#222")};
-		border:1px solid ${colors.Theme_green_2};
+		border:2px solid ${colors.Theme_green_1};
 		box-shadow:none;
 	}
 	:disabled{
@@ -42,6 +42,7 @@ export const AnchorButton = styled.button`
 	:hover{
 		color:${props => (props.bg ? props.bg : "#fff")};
 		background: ${props => (props.color ? props.color : "#222")};
+		border: ${props => (props.border ? props.border : "1px solid #009E74")};
 	}
 	:focus{
 		outline:red auto 0px;

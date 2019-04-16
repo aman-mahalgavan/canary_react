@@ -153,6 +153,8 @@ form {
   }
 }
 }
+
+
 .campaign-comment{
   
   .logged-out{
@@ -174,6 +176,30 @@ form {
     padding:20px;
   }
 
+}
+
+
+.campaign-update{
+  
+  width:40%;
+  margin:0 auto;
+  margin-top:40px;
+  .bottom{
+    
+    height:150px;
+    background:#034752;
+    margin:20px auto;
+    color:#fff;
+    position:relative;
+    h4{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      font-weight:400;
+      font-size:20px;
+    }
+  }
 }
 `
 

@@ -5,26 +5,40 @@ import { calculateRaisedPercentage, calculateRemainingDays, weiToEther } from ".
 import getAccount from "../../utils/getAccount";
 import Campaign from "../../Ethereum/campaign";
 import compare from "../../utils/compareAddresses";
-
+import ButtonComponent from "./ButtonComponent";
 export default class DashboardCampaignCard extends Component {
 
+
+
+    state = {
+        loadingButton: false
+    }
     getRefund = async e => {
-        console.log("Reached here")
-        console.log(this.props.campaign.campaignAddress);
+
+
         try {
             let account = await getAccount();
             if (compare(account, this.props.address)) {
                 const campaign = Campaign(this.props.campaign.campaignAddress);
-                const isContributor = await campaign.methods.isContributor(this.props.address).call();
-                console.log(isContributor);
+                // const isContributor = await campaign.methods.isContributor(this.props.address).call();
+                // console.log(isContributor);
+
+                // setting state for loading Button
+                this.setState({ loadingButton: true });
+
                 await campaign.methods.getRefund().send({
                     from: account
                 });
+                // setting state for loading Button
+                this.setState({ loadingButton: false });
+
                 Router.replaceRoute(`/dashboard/${this.props.campaign.campaignAddress}/requests`);
             } else {
                 console.log(`Please Switch to Your Registered Address  :  ${this.props.address}`);
             }
         } catch (err) {
+            // setting state for loading Button
+            this.setState({ loadingButton: false });
             console.log(err);
         }
     }
@@ -44,7 +58,7 @@ export default class DashboardCampaignCard extends Component {
         let { deadlineCrossed, remainingDays } = calculateRemainingDays(campaignSummary[5], this.props.blockNumber);
 
         let campaignSucces = deadlineCrossed && (weiToEther(campaignSummary[1]) >= weiToEther(campaignSummary[6]));
-        console.log(campaignSucces);
+
 
 
 
@@ -92,15 +106,16 @@ export default class DashboardCampaignCard extends Component {
                      </Styles.ButtonStyle>
                             </Link>
                         ) : (deadlineCrossed ? (
-                            <Styles.ButtonStyle
-                                border="2px solid #CD5C5C"
+                            <ButtonComponent
                                 bg="#fff"
+                                border="2px solid #CD5C5C"
                                 color="#CD5C5C"
-                                bs="0"
+                                style={{ fontWeight: "bold" }}
+                                loading={this.state.loadingButton}
+                                value="Withdraw"
                                 onClick={this.getRefund}
-                            >
-                                WithDraw
-                 </Styles.ButtonStyle>
+                                bs="0"
+                            />
                         ) : (
                                 <Styles.ButtonStyle
                                     border="2px solid #CD5C5C"
@@ -109,7 +124,7 @@ export default class DashboardCampaignCard extends Component {
                                     bs="0"
                                     disabled={true}
                                 >
-                                View Requests
+                                    View Requests
                  </Styles.ButtonStyle>
                             )))}
                     </div>
@@ -120,3 +135,9 @@ export default class DashboardCampaignCard extends Component {
         )
     }
 }
+
+
+
+
+
+

@@ -8,7 +8,9 @@ import { Router } from "../../routes";
 
 export default class RequestCard extends Component {
 
-
+    state = {
+        loadingButton: false
+    }
 
     // Voting for the Request
     onApprove = async e => {
@@ -16,14 +18,25 @@ export default class RequestCard extends Component {
             let account = await getAccount();
             if (compare(account, this.props.userAddress)) {
                 const campaign = Campaign(this.props.address);
+
+                // setting state for loading Button
+                this.setState({ loadingButton: true });
+
                 await campaign.methods.approveRequest(this.props.id).send({
                     from: account
                 });
+
+                // setting state for loading Button
+                this.setState({ loadingButton: false });
+
                 Router.replaceRoute(`/dashboard/${this.props.address}/requests`);
             } else {
                 console.log(`Please Switch to Your Registered Address  :  ${this.props.userAddress}`);
             }
         } catch (err) {
+            // setting state for loading Button
+            this.setState({ loadingButton: false });
+
             console.log(err);
         }
     }
@@ -34,14 +47,26 @@ export default class RequestCard extends Component {
             let account = await getAccount();
             if (compare(account, this.props.userAddress) && this.props.isAdmin) {
                 const campaign = Campaign(this.props.address);
+
+                // setting state for loading Button
+                this.setState({ loadingButton: true });
+
                 await campaign.methods.makePayment(this.props.id).send({
                     from: account
                 });
+
+                // setting state for loading Button
+                this.setState({ loadingButton: false });
+
                 Router.replaceRoute(`/dashboard/${this.props.address}/requests`);
             } else {
                 console.log(`Please Switch to Your Registered Address  :  ${this.props.userAddress}`);
             }
         } catch (err) {
+
+            // setting state for loading Button
+            this.setState({ loadingButton: false });
+
             console.log(err);
         }
     }
@@ -84,7 +109,7 @@ export default class RequestCard extends Component {
                                 onClick={this.onApprove}
                                 disabled={this.props.hasVoted}
                             >
-                                {this.props.hasVoted ? "Voted" : "Approve"}
+                                {this.props.hasVoted ? "Voted" : (this.props.loadingButton ? (<i className="fas fa-cog fa-spin"></i>) : "Approve")}
                             </Styles.AnchorButton>
                         ) : (isApproved ? (<Styles.AnchorButton
                             display="block"
@@ -96,8 +121,8 @@ export default class RequestCard extends Component {
                             onClick={this.onFinalize}
                             border="1px solid #1ba94c"
                         >
-                            Finalise
-                             </Styles.AnchorButton>)
+                            {this.props.loadingButton ? (<i className="fas fa-cog fa-spin"></i>) : "Finalize"}
+                        </Styles.AnchorButton>)
                             : (<Styles.AnchorButton
                                 display="block"
                                 width="50%"

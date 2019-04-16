@@ -5,7 +5,7 @@ import { getCampaignByAddress } from "../../redux/actions/campaignAction";
 import Campaign from "../../Ethereum/campaign";
 import { connect } from "react-redux";
 
-import { Router } from "../../routes";
+import { Router,Link } from "../../routes";
 import CampaignNav from "../../components/partials/CampaignNav";
 
 class update extends Component {
@@ -44,8 +44,22 @@ class update extends Component {
                     <CampaignNav update="true" address={singleCampaign.campaignAddress} />
                     <main className="campaign-update">
 
-                        <h1>update</h1>
+                        <Link route={"/campaign/" + singleCampaign.campaignAddress + "/updates/add"}>
 
+                            <Styles.ButtonStyle
+                                border="2px solid #009E74"
+                                bg="#fff"
+                                color="#009E74"
+                                bs="0"
+
+
+                            >
+                                Add an Update
+                   </Styles.ButtonStyle>
+                        </Link>
+                        <div className="bottom">
+                            <h4>Campaign Launched</h4>
+                        </div>
                     </main>
                 </Styles.CampaignBottomContent>
 

@@ -21,8 +21,8 @@ class createProfile extends Component {
         twitter: "",
         instagram: "",
         errors: {},
-        imagePreview: ""
-
+        imagePreview: "",
+        loadingButton: false
     };
 
     // Lifecycle function for changing errors in localstate everytime they changes in redux store
@@ -49,8 +49,14 @@ class createProfile extends Component {
 
         };
 
+        // setting state for loading Button
+        this.setState({ loadingButton: true });
 
-        this.props.createUserProfile(profileData, this.props.auth.token);
+        await this.props.createUserProfile(profileData, this.props.auth.token);
+
+
+        // setting state for loading Button
+        this.setState({ loadingButton: false });
     };
 
     //handler function onChanging the input value everytime
@@ -162,7 +168,7 @@ class createProfile extends Component {
                     onChange={this.onChange}
                 />
 
-                <Styles.ButtonStyle bg="#1ba94c" color="#fff" type="submit" width="200px" type="submit">Create Profile</Styles.ButtonStyle>
+                <ButtonComponent bg="#1ba94c" color="#fff" type="submit" width="200px" loading={this.state.loadingButton} value="Create Profile" />
             </Styles.FormContainer>
         );
     }

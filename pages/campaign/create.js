@@ -10,7 +10,7 @@ import TextAreaInputComponent from "../../components/partials/TextAreaInputCompo
 import web3 from "../../Ethereum/web3";
 import campaignCreator from "../../Ethereum/campaignCreator";
 import { daysToBlockNumber } from "../../utils/etherUtils";
-
+import ButtonComponent from "../../components/partials/ButtonComponent";
 import validate from "../../utils/validate";
 
 class create extends Component {
@@ -25,8 +25,8 @@ class create extends Component {
         goal: "",
         minimumContribution: "",
         errors: {},
-        imagePreview: ""
-
+        imagePreview: "",
+        loadingButton: false
     };
 
 
@@ -63,6 +63,9 @@ class create extends Component {
                 let formattedDeadline = daysToBlockNumber(deadline);
                 console.log(formattedDeadline);
 
+                // setting state for loading Button
+                this.setState({ loadingButton: true });
+
                 // creating the campaign and getting the transaction details
                 let transactionDetails = await campaignCreator.methods.createCampaign(formattedDeadline, formattedGoal, formattedContribution).send({ from: address });
 
@@ -78,7 +81,8 @@ class create extends Component {
                     about: this.state.about,
                     campaignImage: this.state.headerImage
                 }
-                this.props.createCampaign(campaignData, this.props.auth.token);
+                await this.props.createCampaign(campaignData, this.props.auth.token);
+                this.setState({ loadingButton: false })
             } catch (err) {
                 console.log(err);
             }
@@ -184,9 +188,9 @@ class create extends Component {
 
                 />
 
+                <ButtonComponent bg="#1ba94c" color="#fff" type="submit" width="200px" loading={this.state.loadingButton} value="Create" />
 
 
-                <Styles.ButtonStyle bg="#1ba94c" color="#fff" type="submit" width="200px" type="submit">Create Campaign</Styles.ButtonStyle>
             </Styles.FormContainer>
         )
     }

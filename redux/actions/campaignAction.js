@@ -119,6 +119,39 @@ export const addComment = (data, token) => async dispatch => {
 }
 
 
+export const addUpdate = (updateData, token) => async dispatch => {
+
+    let data = new FormData();
+    for (let key in updateData) {
+        data.append(key, updateData[key]);
+
+    }
+
+    let headers = { authorization: token }
+
+    try {
+        let res = await axios.post(`${URI}/campaign/update`, data, { headers });
+
+        Router.pushRoute(`/campaign/${updateData.address}/updates`);
+    } catch (err) {
+        let errors = {};
+
+        if (err.response.data === "Unauthorized") {
+            errors.unauthorized = "Invalid Token";
+        }
+        else {
+            errors = err.response.data.errors
+        }
+
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+
+
+}
+
 // Updating all the campaigns to the redux state
 export const setCampaigns = (campaigns) => {
     return {
