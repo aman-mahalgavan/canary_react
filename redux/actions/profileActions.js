@@ -43,6 +43,39 @@ export const createUserProfile = (profileData, token) => async dispatch => {
 }
 
 
+export const editUserProfile = (profileData, token) => async dispatch => {
+    let data = new FormData();
+    for (let key in profileData) {
+        data.append(key, profileData[key]);
+    }
+
+    // setting the axios default headers in case the page is just reloaded
+    let headers = { authorization: token }
+
+    try {
+
+        let res = await axios.put(`${URI}/profile/edit`, data, { headers });
+        dispatch(setProfile(res.data));
+
+        Router.replace("/dashboard");
+    } catch (err) {
+
+        let errors = {};
+
+        if (err.response.data === "Unauthorized") {
+            errors.unauthorized = "Invalid Token";
+        }
+        else {
+            errors = err.response.data.errors
+        }
+
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
 export const getUserProfile = (token) => async dispatch => {
 
     let headers = { authorization: token };

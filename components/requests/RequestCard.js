@@ -32,11 +32,12 @@ export default class RequestCard extends Component {
                 Router.replaceRoute(`/dashboard/${this.props.address}/requests`);
             } else {
                 console.log(`Please Switch to Your Registered Address  :  ${this.props.userAddress}`);
+                alert(`Please Switch to Your Registered Address  :  ${this.props.userAddress}`)
             }
         } catch (err) {
             // setting state for loading Button
             this.setState({ loadingButton: false });
-
+            alert(err.message);
             console.log(err);
         }
     }
@@ -61,6 +62,7 @@ export default class RequestCard extends Component {
                 Router.replaceRoute(`/dashboard/${this.props.address}/requests`);
             } else {
                 console.log(`Please Switch to Your Registered Address  :  ${this.props.userAddress}`);
+                alert(`Please Switch to Your Registered Address  :  ${this.props.userAddress}`)
             }
         } catch (err) {
 
@@ -68,12 +70,14 @@ export default class RequestCard extends Component {
             this.setState({ loadingButton: false });
 
             console.log(err);
+            alert(err.message);
         }
     }
 
     render() {
         let completed = this.props.request[3];
-        let isApproved = ((this.props.request[4] / this.props.contributors) * 100) >= 50;
+        let isApproved = ((this.props.request[4] / this.props.contributors) * 100) > 50;
+        console.log((this.props.request[4] / this.props.contributors) * 100);
         return (
             <div className="request-box">
                 <div className="content">
@@ -109,7 +113,7 @@ export default class RequestCard extends Component {
                                 onClick={this.onApprove}
                                 disabled={this.props.hasVoted}
                             >
-                                {this.props.hasVoted ? "Voted" : (this.props.loadingButton ? (<i className="fas fa-cog fa-spin"></i>) : "Approve")}
+                                {this.props.hasVoted ? "Voted" : (this.state.loadingButton ? (<i className="fas fa-cog fa-spin"></i>) : "Approve")}
                             </Styles.AnchorButton>
                         ) : (isApproved ? (<Styles.AnchorButton
                             display="block"
@@ -121,7 +125,7 @@ export default class RequestCard extends Component {
                             onClick={this.onFinalize}
                             border="1px solid #1ba94c"
                         >
-                            {this.props.loadingButton ? (<i className="fas fa-cog fa-spin"></i>) : "Finalize"}
+                            {this.state.loadingButton ? (<i className="fas fa-cog fa-spin"></i>) : "Finalize"}
                         </Styles.AnchorButton>)
                             : (<Styles.AnchorButton
                                 display="block"

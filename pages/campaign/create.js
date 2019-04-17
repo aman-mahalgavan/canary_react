@@ -85,10 +85,12 @@ class create extends Component {
                 this.setState({ loadingButton: false })
             } catch (err) {
                 console.log(err);
+                this.setState({ loadingButton: false })
             }
         }
         else {
             console.log(errors);
+            alert(errors.message);
         }
     }
 

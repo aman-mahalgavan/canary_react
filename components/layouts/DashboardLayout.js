@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import { updateAddress } from "../../redux/actions/authActions";
 import colors from "../../styles/colors";
 import getAccount from "../../utils/getAccount";
-
+import { Link } from "../../routes";
 class DashboardLayout extends Component {
 
 
     connectToEthereum = async (e) => {
         try {
             let currentAccount = await getAccount();
-            console.log(currentAccount);
+
             await this.props.updateAddress(currentAccount);
         } catch (err) {
             console.log(err);
@@ -28,9 +28,9 @@ class DashboardLayout extends Component {
                     <h2>{name}</h2>
                     <span>@{handle}</span>
                     <br></br>
-                    <Styles.AnchorButton width="80%" display="inline-block" color={colors.Theme_green} >
+                    <Link route="/dashboard/edit"><Styles.AnchorButton width="80%" display="inline-block" color={colors.Theme_green} >
                         Edit Profile
-     </Styles.AnchorButton>
+                 </Styles.AnchorButton></Link>
                 </div>
                 <div className="extra-info">
                     <h2>Etherum Address</h2>

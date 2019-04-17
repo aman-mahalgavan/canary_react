@@ -71,6 +71,41 @@ export const resetUser = token => async (dispatch) => {
 }
 
 
+// getting the password reset token 
+export const sendResetToken = (email) => async dispatch => {
+    try {
+        let res = await axios.post(`${URI}/auth/forgot`, { email });
+        alert(res.data.msg);
+
+    } catch (err) {
+        let { errors } = err.response.data;
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+
+
+// resetting the user password
+export const resetUserPassword = (data) => async dispatch => {
+    try {
+        let res = await axios.post(`${URI}/auth/reset`, data);
+        console.log(res.data);
+        alert(res.data.message);
+        Router.pushRoute("/login");
+    } catch (err) {
+        let { errors } = err.response.data;
+        alert(errors.message);
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+
 //logging out the user
 export const logoutUser = () => dispatch => {
 
@@ -79,6 +114,8 @@ export const logoutUser = () => dispatch => {
     dispatch(setToken(""));
     Router.pushRoute("/login");
 }
+
+
 
 //confirming the account(email verification)
 

@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import InputComponent from "../../components/partials/InputComponent";
 import PrivatePage from "../../components/hoc/PrivatePage";
+import HasProfile from "../../components/hoc/HasProfile";
+import WithProfile from "../../components/hoc/WithProfile";
+import { compose } from "redux";
 import SocialInputComponent from "../../components/partials/SocialInputComponent";
 import TextAreaInputComponent from "../../components/partials/TextAreaInputComponent";
-import { connect } from "react-redux";
 import ButtonComponent from "../../components/partials/ButtonComponent";
+import { connect } from "react-redux";
+
 import Styles from "../../styles/_index";
-import { createUserProfile } from "../../redux/actions/profileActions";
+import { editUserProfile } from "../../redux/actions/profileActions";
 
 
-class createProfile extends Component {
+class editProfile extends Component {
     state = {
-        displaySocialHandles: false,
+
         handle: "",
         avatar: {},
         bio: "",
@@ -25,6 +29,23 @@ class createProfile extends Component {
         loadingButton: false
     };
 
+
+
+    componentDidMount() {
+        let { userProfile } = this.props.profile;
+
+        this.setState(() => ({
+            handle: userProfile.handle,
+            bio: userProfile.bio,
+            location: userProfile.location,
+            twitter: userProfile.twitter ? userProfile.twitter : "",
+            facebook: userProfile.twitter ? userProfile.facebook : "",
+            youtube: userProfile.twitter ? userProfile.youtube : "",
+            instagram: userProfile.twitter ? userProfile.instagram : "",
+            imagePreview: userProfile.avatar
+
+        }))
+    }
     // Lifecycle function for changing errors in localstate everytime they changes in redux store
 
     componentWillReceiveProps(nextProps) {
@@ -52,7 +73,7 @@ class createProfile extends Component {
         // setting state for loading Button
         this.setState({ loadingButton: true });
 
-        await this.props.createUserProfile(profileData, this.props.auth.token);
+        await this.props.editUserProfile(profileData, this.props.auth.token);
 
 
         // setting state for loading Button
@@ -75,7 +96,7 @@ class createProfile extends Component {
 
 
         let avatar = event.target.files[0]
-        let imagePreview = URL.createObjectURL(avatar);
+        let imagePreview = avatar ? URL.createObjectURL(avatar) : "";
         this.setState(() => {
             return {
                 avatar,
@@ -168,7 +189,7 @@ class createProfile extends Component {
                     onChange={this.onChange}
                 />
 
-                <ButtonComponent bg="#1ba94c" color="#fff" type="submit" width="200px" loading={this.state.loadingButton} value="Create Profile" />
+                <ButtonComponent bg="#1ba94c" color="#fff" type="submit" width="200px" loading={this.state.loadingButton} value="Edit Profile" />
             </Styles.FormContainer>
         );
     }
@@ -177,10 +198,17 @@ class createProfile extends Component {
 const mapStateToProps = state => {
     return {
         errors: state.errors,
-        auth: state.auth
+        auth: state.auth,
+        profile: state.profile
     };
 };
+
+
+
+const FinalHoc = compose(PrivatePage, HasProfile, WithProfile);
+
+
 export default connect(
     mapStateToProps,
-    { createUserProfile }
-)(PrivatePage(createProfile));
+    { editUserProfile }
+)(FinalHoc(editProfile));

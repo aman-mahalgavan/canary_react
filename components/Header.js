@@ -9,6 +9,8 @@ const Header = (props) => {
 
 	const [toggle, setToggle] = useState(false);
 
+
+
 	return (
 		<HeaderStyle>
 			<Link route="/">
@@ -29,7 +31,7 @@ const Header = (props) => {
 				<div className="navigation  dropdown-wrapper">
 
 					<img src={props.auth.user.avatar} onClick={() => setToggle(!toggle)} />
-					{toggle ? <Dropdown logoutUser={props.logoutUser} /> : null}
+					{toggle ? <Dropdown logoutUser={props.logoutUser} toggle={toggle} setToggle={setToggle} /> : null}
 				</div>
 			) : (
 					<div className="navigation">

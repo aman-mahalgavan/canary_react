@@ -8,16 +8,16 @@ export default async (hasProfile, address) => {
     try {
         account = await getAccount();
         if (address != account) {
-            errors.address = `Please switch  to your registered address ${address}`
+            errors.message = `Please switch  to your registered address ${address}`
         }
     } catch (err) {
-        errors.account = err.message;
+        errors.message = err.message;
     }
     if (!hasProfile) {
-        errors.profile = "First You need to complete your Profile";
+        errors.message = "First You need to complete your Profile";
     }
     if (!address) {
-        errors.address = "Please connect an Ethereum address with your account";
+        errors.message = "Please connect an Ethereum address with your account";
     }
     let isEligible = true;
     if (!isEmpty(errors)) {

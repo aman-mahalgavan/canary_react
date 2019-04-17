@@ -65,7 +65,7 @@ class signin extends Component {
                 />
 
                 <Styles.FLX mg="30px 0 30px 0">
-                    <Link route="/">
+                    <Link route="/forgot ">
                         <a className="forgot">Forgot your password?</a>
                     </Link>
                 </Styles.FLX>

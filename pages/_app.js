@@ -4,6 +4,7 @@ import withRedux from 'next-redux-wrapper';
 import initStore from '../redux/configureStore';
 import { getCookie } from "../utils/cookie";
 import { resetUser, setToken } from "../redux/actions/authActions";
+import NProgress from "next-nprogress/component";
 
 import { formatToken } from "../utils/formatToken";
 import BaseLayout from "../components/layouts/BaseLayout.js"
@@ -47,7 +48,12 @@ class MyApp extends App {
         return (
             <Container>
                 <Provider store={store}>
+
                     <BaseLayout>
+                        <NProgress color="#009E74"
+                            options={{ trickleSpeed: 100 }}
+                            showAfterMs={300}
+                            spinner />
                         <Component {...pageProps} />
                     </BaseLayout>
                 </Provider>

@@ -74,12 +74,15 @@ class show extends Component {
 
 
                     // setting state for loading Button
-                    this.setState({ loadingButton: false, contribution: "" });
+                    this.setState({ loadingButton: false });
                 } else {
                     console.log(errors);
+                    alert(errors.message);
                 }
             } catch (err) {
-                console.log(err);
+                this.setState({ loadingButton: false });
+                console.log(err.message);
+                alert(err.message);
             }
         } else {
             Router.pushRoute("/login");

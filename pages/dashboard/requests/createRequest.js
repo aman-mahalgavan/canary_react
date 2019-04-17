@@ -33,7 +33,8 @@ class createRequest extends Component {
         description: "",
         amount: "",
         recipient: "",
-        errors: {}
+        errors: {},
+        loadingButton: false
     }
 
 
@@ -55,19 +56,33 @@ class createRequest extends Component {
         const campaign = Campaign(this.props.address);
         try {
             let { hasProfile, address } = this.props.auth.user;
+
+            // making sure that user is eligible for creating transactions on Blockchain
             let { isEligible, errors } = await validate(hasProfile, address);
             if (isEligible) {
+
+                // setting state for loading Button
+                this.setState({ loadingButton: true });
+
                 await campaign.methods
                     .createSpendingRequest(description, recipient, web3.utils.toWei(amount, "ether"))
                     .send({ from: address });
+
+                // setting state for loading Button
+                this.setState({ loadingButton: false });
+
                 Router.pushRoute(`/dashboard/${this.props.address}/requests`);
             } else {
                 console.log(errors);
+                alert(errors.message);
             }
 
 
         } catch (err) {
+            // setting state for loading Button
+            this.setState({ loadingButton: false });
             console.log(err);
+            alert(err.message);
         }
 
     }
@@ -108,7 +123,7 @@ class createRequest extends Component {
                         onChange={this.onChange}
                     />
 
-                    <Styles.ButtonStyle bg="#1ba94c" color="#fff" type="submit" width="200px" type="submit">Create</Styles.ButtonStyle>
+                    <Styles.ButtonStyle bg="#1ba94c" color="#fff" type="submit" width="200px" type="submit">{this.state.loadingButton ? (<i className="fas fa-cog fa-spin"></i>) : "Create"}</Styles.ButtonStyle>
                 </Styles.RequestFormContainer>
 
 

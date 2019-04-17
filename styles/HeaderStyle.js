@@ -56,9 +56,21 @@ export const StyledDropdown = styled.div`
 z-index:200;
 position:absolute;
 transform:translateX(-50%);
-width:100px;
-padding:10px 40px 50px 3px;
+
+
 background:#fff;
 box-shadow:3px 3px 7px rgba(0,0,0,0.4);
 border-radius:5px;
+li{
+	padding:5px 0;
+	cursor:pointer;
+	:hover{
+		background:#f5f5f5;
+		
+	}
+}
+a{
+	padding:5px 0;
+
+}
 `

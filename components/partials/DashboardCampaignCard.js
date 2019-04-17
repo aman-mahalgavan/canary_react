@@ -35,11 +35,13 @@ export default class DashboardCampaignCard extends Component {
                 Router.replaceRoute(`/dashboard/${this.props.campaign.campaignAddress}/requests`);
             } else {
                 console.log(`Please Switch to Your Registered Address  :  ${this.props.address}`);
+                alert(`Please Switch to Your Registered Address  :  ${this.props.address}`);
             }
         } catch (err) {
             // setting state for loading Button
             this.setState({ loadingButton: false });
             console.log(err);
+            alert(err.message);
         }
     }
 
