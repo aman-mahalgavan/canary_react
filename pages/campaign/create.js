@@ -157,24 +157,24 @@ class create extends Component {
                     onChange={this.onChange}
                 />
                 <InputComponent
-                    placeholder="minimum Contribution"
-                    type="text"
+                    placeholder="minimum Contribution in Ether"
+                    type="number"
                     value={this.state.minimumContribution}
                     name="minimumContribution"
                     error={errors.minimumContribution}
                     onChange={this.onChange}
                 />
                 <InputComponent
-                    placeholder="deadline"
-                    type="text"
+                    placeholder="deadline in Days"
+                    type="number"
                     value={this.state.deadline}
                     name="deadline"
                     error={errors.deadline}
                     onChange={this.onChange}
                 />
                 <InputComponent
-                    placeholder="goal"
-                    type="text"
+                    placeholder="goal in Ether"
+                    type="number"
                     value={this.state.goal}
                     name="goal"
                     error={errors.goal}

@@ -9,6 +9,7 @@ export default function CampaignLayout({ parentProps, children }) {
 
     let { deadlineCrossed, remainingDays } = calculateRemainingDays(parentProps.deadline, parentProps.blockNumber);
 
+
     let progressBarWidth = (raisedPercentage <= 100) ? `${raisedPercentage}%` : "100%";
     return (<>
         <Styles.CampaignContainer>
@@ -38,7 +39,7 @@ export default function CampaignLayout({ parentProps, children }) {
                             {parentProps.contributors} <b>contributors</b>
                         </span>
                         <span>
-                            {remainingDays} <b>days to go</b>
+                            {remainingDays ? remainingDays : "No"} <b>days to go</b>
                         </span>
                         <span>
                             {weiToEther(parentProps.minimumContribution)} ETH <b>minimum contribution</b>

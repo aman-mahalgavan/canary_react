@@ -171,6 +171,8 @@ export const fetchUser = async (token) => {
 
 }
 
+
+
 export const setToken = token => {
     return {
         type: SET_TOKEN,

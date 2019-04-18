@@ -39,17 +39,20 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         appProps = { pageProps }
-
-        return { ...appProps, token: formattedToken }
+        let isHome = false;
+        if (ctx.pathname === "/") {
+            isHome = true;
+        }
+        return { ...appProps, token: formattedToken, isHome }
     }
 
     render() {
-        const { Component, pageProps, store } = this.props;
+        const { Component, pageProps, store, isHome } = this.props;
         return (
             <Container>
                 <Provider store={store}>
 
-                    <BaseLayout>
+                    <BaseLayout isHome={isHome}>
                         <NProgress color="#009E74"
                             options={{ trickleSpeed: 100 }}
                             showAfterMs={300}

@@ -201,6 +201,31 @@ form {
     }
   }
 }
+
+.campaign-faq{
+  display:flex;
+
+  .faq-left{
+    flex:2;
+    h4{
+      font-size:20px;
+      margin:15px 5px 30px 5px;
+    }
+    
+  }
+
+  .faq-right{
+    flex:1;
+    display:flex;
+    .logged-out{
+      background:#f5f5f5;
+    height:50px;
+    padding:15px;
+    margin:20px auto;
+    color:${colors.Dark_3};
+    }
+  }
+}
 `
 
 
@@ -239,4 +264,38 @@ export const CampaignInfo = styled.div`
     margin-bottom: 15px;
     
 	}
+`;
+
+
+export const FaqCard = styled.div`
+
+padding:15px;
+margin:20px 0;
+border:1px solid ${colors.Light_Grey_1};
+cursor:pointer;
+
+.faq-container{
+  display:flex;
+  justify-content:space-between;
+}
+h3{
+  font-weight:200;
+}
+i{
+  margin-top:5px;
+  color:${colors.Theme_green_2};
+}
+:hover{
+  background:rgba(220,220,220,0.4);
+}
+`;
+
+
+export const VerticalDivider = styled.div`
+border-left: 4px solid ${colors.Light_Grey_2};
+border-radius:5px;
+  height: 180px;
+  width:20px;
+  display:inline-block;
+  margin:25px 0 0 30px;
 `;

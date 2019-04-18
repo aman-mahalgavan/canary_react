@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import compare from "../../utils/compareAddresses";
 import { Router, Link } from "../../routes";
 import CampaignNav from "../../components/partials/CampaignNav";
+import WithBlockNumber from "../../components/hoc/WithBlockNumber";
+
 
 class update extends Component {
 
@@ -80,4 +82,4 @@ const mapStateToprops = state => {
     }
 }
 
-export default connect(mapStateToprops)(update);
+export default connect(mapStateToprops)(WithBlockNumber(update));

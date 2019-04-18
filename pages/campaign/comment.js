@@ -8,7 +8,7 @@ import TextAreaInputComponent from "../../components/partials/TextAreaInputCompo
 import { Router, Link } from "../../routes";
 import CampaignNav from "../../components/partials/CampaignNav";
 import CommentCard from "../../components/partials/CommentCard";
-
+import WithBlockNumber from "../../components/hoc/WithBlockNumber";
 class comment extends Component {
 
     static async getInitialProps(ctx) {
@@ -94,7 +94,7 @@ class comment extends Component {
                             </form>
                         ) : (
                                 <div className="logged-out">
-                                    <p>Please <Link route="/login"><a>Login</a></Link> to Comment</p>
+                                    <p>Please <Link route="/login"><a>Login</a></Link> to comment</p>
                                 </div>
                             )}
                         <div className="comments-display">
@@ -118,4 +118,4 @@ const mapStateToprops = state => {
     }
 }
 
-export default connect(mapStateToprops, { addComment })(comment);
+export default connect(mapStateToprops, { addComment })(WithBlockNumber(comment));

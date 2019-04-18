@@ -6,6 +6,7 @@ import * as UtilStyles from "./UtilStyle";
 import * as DashboardStyles from "./DashboardStyle";
 import * as CampaignStyles from "./CampaignStyle";
 import * as ExporeStyles from "./ExploreStyle";
+import * as HomeStyles from "./HomeStyle";
 
 
 
@@ -17,7 +18,8 @@ const finalStyleObject = {
 	...UtilStyles,
 	...DashboardStyles,
 	...CampaignStyles,
-	...ExporeStyles
+	...ExporeStyles,
+	...HomeStyles
 }
 
 export default finalStyleObject;

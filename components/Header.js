@@ -14,17 +14,17 @@ const Header = (props) => {
 	return (
 		<HeaderStyle>
 			<Link route="/">
-				<a className="logo">Canary</a>
+				<img src="/images/logo.png" className="logo" alt="" />
 			</Link>
 
-			<div className="navigation">
+			{props.isHome ? null : (<div className="navigation">
 				<Link route="/explore">
 					<a >Explore</a>
 				</Link>
 				<Link route="/campaign/create">
 					<a>Start a Campaign</a>
 				</Link>
-			</div>
+			</div>)}
 
 
 			{props.auth.isAuthenticated ? (

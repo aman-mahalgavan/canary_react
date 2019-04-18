@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
 	body{
 		background:${props => (props.bg ? props.bg : "#f3f7f7")};
+		overflow:${props => (props.overflow ? props.overflow : "visible")};
 		font-family: 'Roboto Slab', serif;
 	}
 

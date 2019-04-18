@@ -14,7 +14,7 @@ export const blockNumberToDays = (blockNumber) => {
 
 export const calculateRemainingDays = (deadline, currentBlock) => {
     let remainingBlocks = deadline - currentBlock;
-
+    
     let deadlineCrossed = false;
     let remainingDays;
     if (remainingBlocks < 0) {
@@ -23,6 +23,7 @@ export const calculateRemainingDays = (deadline, currentBlock) => {
     else {
         remainingDays = blockNumberToDays(remainingBlocks);
     }
+    
     return { deadlineCrossed, remainingDays }
 }
 

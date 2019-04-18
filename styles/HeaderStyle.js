@@ -6,14 +6,17 @@ export const HeaderStyle = styled.header`
 	max-height: 75px;
 	display: flex;
 	align-items: center;
-	background: #fff;
+	background: transparent;
 	justify-content: space-between;
-	border-bottom: 1px solid #f5f5f5;
+	position:relative;
+	z-index:1000;
 	box-shadow: 0px 2px 10px #888888;
+	
+	width:100%;
 	.logo {
-		font-size: 1.7em;
-		font-weight: 600;
-		color: rgba(0, 0, 0, 0.7);
+		width:60px;
+		height:60px;
+		cursor:pointer;
 	}
 	.dropdown-wrapper{
 		position:relative;

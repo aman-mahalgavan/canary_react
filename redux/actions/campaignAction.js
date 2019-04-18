@@ -152,6 +152,60 @@ export const addUpdate = (updateData, token) => async dispatch => {
 
 }
 
+
+export const askQuestion = (data, token) => async dispatch => {
+    let { address } = data;
+    let headers = { authorization: token }
+    try {
+        await axios.post(`${URI}/campaign/question`, data, { headers });
+        Router.replaceRoute(`/campaign/${address}/faqs`);
+    }
+    catch (err) {
+
+        let errors = {};
+
+        if (err.response.data === "Unauthorized") {
+            errors.unauthorized = "Invalid Token";
+            alert(errors.unauthorized);
+        }
+        else {
+            errors = err.response.data.errors
+        }
+        alert(errors.message);
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+
+export const answerQuestion = (data, token) => async dispatch => {
+    let { address } = data;
+    let headers = { authorization: token }
+    try {
+        await axios.post(`${URI}/campaign/answer`, data, { headers });
+        Router.replaceRoute(`/campaign/${address}/faqs`);
+    }
+    catch (err) {
+
+        let errors = {};
+
+        if (err.response.data === "Unauthorized") {
+            errors.unauthorized = "Invalid Token";
+            alert(errors.unauthorized);
+        }
+        else {
+            errors = err.response.data.errors
+        }
+        alert(errors.message);
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
 // Updating all the campaigns to the redux state
 export const setCampaigns = (campaigns) => {
     return {
