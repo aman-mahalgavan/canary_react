@@ -8,7 +8,8 @@ import compare from "../../utils/compareAddresses";
 import { Router, Link } from "../../routes";
 import CampaignNav from "../../components/partials/CampaignNav";
 import WithBlockNumber from "../../components/hoc/WithBlockNumber";
-
+import UpdateCard from "../../components/partials/UpdateCard";
+import isEmpty from "../../utils/isEmpty";
 
 class update extends Component {
 
@@ -35,7 +36,22 @@ class update extends Component {
         }
     }
 
+    renderUpdates = () => {
+        let { singleCampaign } = this.props.campaign;
+        let updates = singleCampaign.updates.slice();
 
+
+        if (!isEmpty(singleCampaign.updates)) {
+
+            return updates.reverse().map((element, index) => {
+                let updateIndex = updates.length - (index);
+                return <UpdateCard key={index} index={updateIndex} update={element.updateId} address={singleCampaign.campaignAddress} />
+            })
+        }
+        else {
+            return null
+        }
+    }
 
     render() {
         const { singleCampaign } = this.props.campaign;
@@ -49,7 +65,7 @@ class update extends Component {
 
                         <Link route={"/campaign/" + singleCampaign.campaignAddress + "/updates/add"}>
 
-                            {isAdmin ? (
+                            <a> {isAdmin ? (
                                 <Styles.ButtonStyle
                                     border="2px solid #009E74"
                                     bg="#fff"
@@ -59,9 +75,10 @@ class update extends Component {
 
                                 >
                                     Add an Update
-                   </Styles.ButtonStyle>
-                            ) : ""}
+               </Styles.ButtonStyle>
+                            ) : ""}</a>
                         </Link>
+                        {this.renderUpdates()}
                         <div className="bottom">
                             <h4>Campaign Launched</h4>
                         </div>

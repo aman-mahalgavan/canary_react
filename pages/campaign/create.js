@@ -63,6 +63,7 @@ class create extends Component {
                 let formattedDeadline = daysToBlockNumber(deadline);
                 console.log(formattedDeadline);
 
+                console.log(formattedDeadline);
                 // setting state for loading Button
                 this.setState({ loadingButton: true });
 

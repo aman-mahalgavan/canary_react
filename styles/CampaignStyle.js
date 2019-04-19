@@ -291,6 +291,34 @@ i{
 `;
 
 
+export const UpdateCardStyle = styled.div`
+text-align:center;
+padding:15px;
+margin:20px 0;
+border:1px solid ${colors.Light_Grey_1};
+cursor:pointer;
+a{
+  color:${colors.Dark_3};
+}
+:hover{
+  background:rgba(27,169,76,0.4);
+}
+span{
+  font-weight:200;
+  font-size:12px;
+  :hover{
+    background:${colors.Theme_green};
+  }
+}
+h4{
+  font-weight:200;
+  
+  
+}
+
+`;
+
+
 export const VerticalDivider = styled.div`
 border-left: 4px solid ${colors.Light_Grey_2};
 border-radius:5px;
@@ -299,3 +327,32 @@ border-radius:5px;
   display:inline-block;
   margin:25px 0 0 30px;
 `;
+
+
+export const UpdateContainer = styled.div`
+width:60%;
+margin:50px auto;
+box-sizing:border-box;
+text-align:center;
+h2{
+  color:${colors.Dark_3};
+  font-size:50px;
+  margin-bottom:30px;
+}
+span{
+  display:block;
+  color:${colors.Light_Grey_1};
+  margin-bottom:10px;
+}
+img{
+  
+  width:60%;
+  margin:0 auto;
+  object-fit:contain;
+}
+p{
+  color:${colors.Light_Grey_1};
+  margin-top:30px;
+  line-height:30px;
+}
+`

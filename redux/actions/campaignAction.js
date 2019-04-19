@@ -206,6 +206,22 @@ export const answerQuestion = (data, token) => async dispatch => {
     }
 }
 
+export const getUpdateById = (id) => async dispatch => {
+    try {
+
+        let res = await axios.get(`${URI}/campaign/update/${id}`);
+        return res.data
+    } catch (err) {
+        let { errors } = err.response.data;
+
+        dispatch({
+            type: ERRORS,
+            errors
+        });
+    }
+}
+
+
 // Updating all the campaigns to the redux state
 export const setCampaigns = (campaigns) => {
     return {

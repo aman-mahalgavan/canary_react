@@ -15,6 +15,7 @@
     "fs-extra": "^7.0.1",
     "js-cookie": "^2.2.0",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.24.0",
     "next": "^7.0.2",
     "next-nprogress": "^1.4.0",
     "next-redux-wrapper": "^2.0.0",

@@ -18,6 +18,7 @@ export default class Campaigns extends Component {
                     key={index}
                     campaign={campaign}
                     campaignSummary={this.props.campaignsSummary[index]}
+                    isContributor={this.props.isContributor ? this.props.isContributor[index] : undefined}
                     blockNumber={this.props.blockNumber}
                     contributionPage={this.props.contributionPage}
                     address={this.props.address}

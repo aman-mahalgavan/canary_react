@@ -115,6 +115,7 @@ export default class DashboardCampaignCard extends Component {
                                 style={{ fontWeight: "bold" }}
                                 loading={this.state.loadingButton}
                                 value="Withdraw"
+                                disabled={!this.props.isContributor}
                                 onClick={this.getRefund}
                                 bs="0"
                             />

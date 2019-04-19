@@ -104,19 +104,22 @@ contract FundRaising {
     }
     
     function getSummary() public view returns (
-      uint, uint, uint, uint, address,uint,uint,address
+      uint, uint, uint, uint, address,uint,uint,address,uint
       ) {
         return (
           minimumContribution,
-          address(this).balance,
+          raisedAmount,
           requests.length,
           totalContributors,
           admin,
           deadline,
           goal,
-          address(this)
+          address(this),
+          address(this).balance
         );
     }
+    
+   
    
    function isContributor(address user) public view returns(bool){
        if(contributions[user] > 0){

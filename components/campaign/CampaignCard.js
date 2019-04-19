@@ -18,7 +18,7 @@ export default function CampaignCard(props) {
             <Styles.CampaignCardContent>
                 <h3>{props.campaign.heading}</h3>
                 <p>{props.campaign.intro}</p>
-                <span>By Ankit Brahmbhatt</span>
+                <span>{props.campaign.creatorId.name}</span>
                 <Styles.ProgressBar width={progressBarWidth} />
                 <span className="goal">{weiToEther(props.campaignSummary[6])} Eth Pledged</span>
                 <span className="raised">{raisedPercentage}% funded</span>

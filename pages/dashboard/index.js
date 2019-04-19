@@ -9,7 +9,7 @@ import Campaign from "../../Ethereum/campaign";
 import privatePage from "../../components/hoc/PrivatePage";
 import WithProfile from "../../components/hoc/WithProfile";
 import WithBlockNumber from "../../components/hoc/WithBlockNumber";
-
+import isEmpty from "../../utils/isEmpty";
 
 class dashboard extends Component {
 
@@ -21,17 +21,19 @@ class dashboard extends Component {
 
             let campaigns = ctx.store.getState().profile.userProfile.campaigns;
 
-            if (campaigns) {
-                let campaignsSummary = await Promise.all(campaigns.map(async singleCampaign => {
 
-                    let campaign = Campaign(singleCampaign.campaignAddress);
-                    return campaign.methods.getSummary().call()
-                }));
-                return {
-                    campaigns,
-                    campaignsSummary
-                }
+            let campaignsSummary = await Promise.all(campaigns.map(async singleCampaign => {
+
+                let campaign = Campaign(singleCampaign.campaignAddress);
+                return campaign.methods.getSummary().call()
+            }));
+
+
+            return {
+                campaigns,
+                campaignsSummary
             }
+
 
 
         } catch (err) {
@@ -69,7 +71,7 @@ class dashboard extends Component {
 
 
 
-                    <Styles.DashboardRightStyle space="150px"></Styles.DashboardRightStyle>
+                    <Styles.DashboardRightStyle space="120px"></Styles.DashboardRightStyle>
                 </Styles.DashboardContainerStyle>
 
             );

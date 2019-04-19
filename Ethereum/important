@@ -10,3 +10,7 @@ deployed_campaign_version_2: 0xe18642e663f8665beB36ff1D148b36b0eB17AB6D
 
 // getSummary updated
 deployed_campaign_version_3:0x2C46B96D99e9970e2af2a4b0c91f53b0447acF4b
+
+
+//returning raised amount instead of balance
+deployed_campaign_version_4:0x4b086D929bbd737DF6C1ea32A2B3874dbc1966a5

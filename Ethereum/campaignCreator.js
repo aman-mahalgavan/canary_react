@@ -3,7 +3,7 @@ import campaignCreator from "./Build/campaignCreator.json";
 
 const instance = new web3.eth.Contract(
     JSON.parse(campaignCreator.interface),
-    "0x2C46B96D99e9970e2af2a4b0c91f53b0447acF4b"
+    "0x4b086D929bbd737DF6C1ea32A2B3874dbc1966a5"
 );
 
 export default instance;

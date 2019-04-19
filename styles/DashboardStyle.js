@@ -194,13 +194,15 @@ display:flex;
 justify-content:space-between;
 
 img{
-	width:170px;
+	width:200px;
 	height:150px;
+	
 	flex:1;	
 	margin-right:30px;
 }
 & .content{
 	flex:2;
+	
 	h2{
 		color:${colors.Dark_3};
 		font-size:20px;

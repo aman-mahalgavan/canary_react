@@ -10,6 +10,7 @@ import privatePage from "../../components/hoc/PrivatePage";
 import WithProfile from "../../components/hoc/WithProfile";
 import WithBlockNumber from "../../components/hoc/WithBlockNumber";
 
+
 class contributions extends Component {
 
 
@@ -18,18 +19,25 @@ class contributions extends Component {
     static async getInitialProps(ctx) {
         try {
             let campaigns = ctx.store.getState().profile.userProfile.contributions;
+            let userAddress = ctx.store.getState().auth.user.address;
 
-            if (campaigns) {
-                let campaignsSummary = await Promise.all(campaigns.map(async singleCampaign => {
 
-                    let campaign = Campaign(singleCampaign.campaignAddress);
-                    return campaign.methods.getSummary().call()
-                }));
-                return {
-                    campaigns,
-                    campaignsSummary
-                }
+            let campaignsSummary = await Promise.all(campaigns.map(async singleCampaign => {
+
+                let campaign = Campaign(singleCampaign.campaignAddress);
+                return campaign.methods.getSummary().call();
+            }));
+
+            let isContributor = await Promise.all(campaigns.map(async singleCampaign => {
+                let campaign = Campaign(singleCampaign.campaignAddress);
+                return campaign.methods.isContributor(userAddress).call();
+            }))
+            return {
+                campaigns,
+                campaignsSummary,
+                isContributor
             }
+
 
         } catch (err) {
             console.log(err);
@@ -67,6 +75,7 @@ class contributions extends Component {
                         campaigns={this.props.campaigns}
                         campaignsSummary={this.props.campaignsSummary}
                         address={this.props.auth.user.address}
+                        isContributor={this.props.isContributor}
                     />
 
 
